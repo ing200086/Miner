@@ -48,9 +48,9 @@ class Uint32 extends Uint32ReadOnly
         $this->endian = self::oppositeEndian($this->endian);
 
         $result = $this->shiftLeft(24)->mask(self::fromHex('FF000000'))
-                  ->orMerge($this->shiftLeft(8)->mask(self::fromHex('00FF0000')))
-                  ->orMerge($this->shiftRight(8)->mask(self::fromHex('0000FF00')))
-                  ->orMerge($this->shiftRight(24)->mask(self::fromHex('000000FF')));
+                    ->orMerge($this->shiftLeft(8)->mask(self::fromHex('00FF0000')))
+                    ->orMerge($this->shiftRight(8)->mask(self::fromHex('0000FF00')))
+                    ->orMerge($this->shiftRight(24)->mask(self::fromHex('000000FF')));
 
         return $result;
     }
