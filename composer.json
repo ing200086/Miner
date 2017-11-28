@@ -1,0 +1,100 @@
+{
+  "name": "ing200086/miner",
+  "description": "",
+  "type": "project",
+  "keywords": [
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ing200086",
+      "email": "ing200086@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": "^7.0",
+    "symfony/polyfill-php71": "^1.0",
+    "symfony/polyfill-php72": "^1.0"
+  },
+  "require-dev": {
+    "brainmaestro/composer-git-hooks": "^2.1",
+    "editorconfig-checker/editorconfig-checker": "^7.0",
+    "friendsofphp/php-cs-fixer": "^2.0",
+    "humbug/humbug": "~1.0@dev",
+    "phpmd/phpmd": "^2.0",
+    "phpmetrics/phpmetrics": "^2.0",
+    "phpstan/phpstan": "~0.8",
+    "phpunit/phpunit": "^5.7|^6.0",
+    "roave/security-advisories": "dev-master",
+    "sebastian/phpcpd": "^2.0",
+    "squizlabs/php_codesniffer": "^2.0"
+  },
+  "suggest": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Ing200086\\Miner\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Ing200086\\Miner\\Tests\\": "tests/Miner/"
+    }
+  },
+  "bin": [
+  ],
+  "config": {
+    "preferred-install": "dist",
+    "sort-packages": true
+  },
+  "scripts": {
+    "cghooks": "cghooks",
+    "post-install-cmd": "cghooks add --ignore-lock",
+    "post-update-cmd": "cghooks update",
+    "php-lint": "php -l src && php -l tests",
+    "editorconfig-lint": "editorconfig-checker src/* tests/*",
+    "editorconfig-fix": "editorconfig-checker --auto-fix src/* tests/*",
+    "phpcs": "phpcs --standard=PSR2 src tests",
+    "phpcs-lint": "php-cs-fixer fix --dry-run --verbose",
+    "phpcs-fix": "php-cs-fixer fix --verbose",
+    "phpcpd": "phpcpd src",
+    "phpmd": "phpmd src text unusedcode,naming,design,controversial,codesize",
+    "phpmetrics-report": "phpmetrics --report-html=build/metrics --offline .",
+    "phpstan": "phpstan analyse --level 7 src",
+    "phpunit": "phpunit",
+    "phpunit-coverage": "phpunit --coverage-html build/coverage",
+    "phpunit-clover": "phpunit --coverage-clover build/logs/clover.xml",
+    "humbug": "humbug",
+    "qa": [
+      "@php-lint",
+      "@editorconfig-lint",
+      "@phpcs",
+      "@phpcs-lint",
+      "@phpcpd",
+      "@phpmd",
+      "@phpstan"
+    ],
+    "reports": [
+      "@phpmetrics-report",
+      "@phpunit-coverage"
+    ],
+    "fix": [
+      "@editorconfig-fix",
+      "@phpcs-fix"
+    ],
+    "security": "composer outdated",
+    "test": [
+      "@php-lint",
+      "@phpunit",
+      "@humbug"
+    ]
+  },
+  "extra": {
+    "hooks": {
+      "pre-commit": "composer qa && composer phpunit"
+    }
+  }
+}
