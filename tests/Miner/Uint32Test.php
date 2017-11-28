@@ -23,8 +23,30 @@ class Uint32Test extends TestCase
     {
         $hex = 'FFFFFFFF';
         $expected = Uint32::fromBin('11111111' . '11111111' . '11111111' . '11111111');
+        $actual = Uint32::fromHex($hex);
 
-        $this->assert32BitEquals($expected, Uint32::fromHex($hex));
+        $this->assert32BitEquals($expected, $actual);
+    }
+
+    /**
+     * @test
+     */
+    public function canKeepTrackOfEndian()
+    {
+        $original = Uint32::fromHex('FFFFFFFF');
+
+        $this->assertEquals(Uint32::BIG_ENDIAN, $original->getEndian());
+        $this->assertNotEquals(Uint32::LITTLE_ENDIAN, $original->getEndian());
+
+        $littleEndian = $original->endian(Uint32::LITTLE_ENDIAN);
+
+        $this->assertEquals(Uint32::LITTLE_ENDIAN, $littleEndian->getEndian());
+        $this->assertNotEquals(Uint32::BIG_ENDIAN, $littleEndian->getEndian());
+
+        $bigEndian = $original->endian(Uint32::BIG_ENDIAN);
+
+        $this->assertEquals(Uint32::BIG_ENDIAN, $bigEndian->getEndian());
+        $this->assertNotEquals(Uint32::LITTLE_ENDIAN, $bigEndian->getEndian());
     }
 
     /**
@@ -100,37 +122,15 @@ class Uint32Test extends TestCase
         $this->assert32BitEquals($expected, $actual->byteReversal());
     }
 
-    public function poolDataProvider()
-    {
-        return [
-            ['36caf078', 2029046326],
-            ['fcf348d1', -783748100],
-            ['b56f301f', 523268021],
-            ['1e6cc1d5', -708744162],
-            ['8d00bf85', -2051080051],
-            ['cb25f304', 83043787],
-            ['ac24af2e', 783230124],
-            ['b1935bc8', -933522511],
-        ];
-    }
-
     /**
      * @test
-     * @dataProvider hexEndianProviderBigLittle
+     * @dataProvider endianFlipProvider
      */
-    public function bigEndianToLittleEndianHexString($bigEndian, $littleEndian)
+    public function bigEndianToLittleEndianHexString($src, $dest, $srcEndian, $destEndian)
     {
-        $actual = Uint32::fromHex($bigEndian)->byteReversal();
+        $actual = Uint32::fromHex($src, $srcEndian)->endian($destEndian);
 
-        $this->assertEquals($littleEndian, $actual->hex());
-    }
-
-    public function hexEndianProviderBigLittle()
-    {
-        return [
-            ['0597ba1f', '1fba9705'],
-            ['00000002', '02000000'],
-        ];
+        $this->assertEquals($dest, $actual->hex());
     }
 
     /**
@@ -155,6 +155,34 @@ class Uint32Test extends TestCase
         $expected = Uint32::fromRaw($expected);
 
         $this->assert32BitEquals($expected, $original->byteReversal());
+    }
+
+    public function poolDataProvider()
+    {
+        return [
+            ['36caf078', 2029046326],
+            ['fcf348d1', -783748100],
+            ['b56f301f', 523268021],
+            ['1e6cc1d5', -708744162],
+            ['8d00bf85', -2051080051],
+            ['cb25f304', 83043787],
+            ['ac24af2e', 783230124],
+            ['b1935bc8', -933522511],
+        ];
+    }
+
+    public function endianFlipProvider()
+    {
+        return [
+            ['0597ba1f', '1fba9705', Uint32::BIG_ENDIAN, Uint32::LITTLE_ENDIAN],
+            ['00000002', '02000000', Uint32::BIG_ENDIAN, Uint32::LITTLE_ENDIAN],
+            ['0597ba1f', '1fba9705', Uint32::LITTLE_ENDIAN, Uint32::BIG_ENDIAN],
+            ['00000002', '02000000', Uint32::LITTLE_ENDIAN, Uint32::BIG_ENDIAN],
+            ['0597ba1f', '0597ba1f', Uint32::BIG_ENDIAN, Uint32::BIG_ENDIAN],
+            ['00000002', '00000002', Uint32::BIG_ENDIAN, Uint32::BIG_ENDIAN],
+            ['0597ba1f', '0597ba1f', Uint32::LITTLE_ENDIAN, Uint32::LITTLE_ENDIAN],
+            ['00000002', '00000002', Uint32::LITTLE_ENDIAN, Uint32::LITTLE_ENDIAN],
+        ];
     }
 
     public function byteReversalProvider()

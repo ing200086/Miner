@@ -36,8 +36,8 @@ class Block
 
     public static function splitHexStringByUint32BitChunks($hexString)
     {
-        preg_match_all('/......../', $hexString, $output_array);
-        return $output_array;
+        preg_match_all('/......../', $hexString, $outputArray);
+        return $outputArray;
     }
 
     public function littleEndianString()

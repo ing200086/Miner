@@ -13,4 +13,21 @@ namespace Ing200086\Miner;
 
 class BlockData
 {
+    protected $previousBlockHash;
+    protected $transactions;
+
+    protected function __construct($previousBlockHash)
+    {
+        $this->previousBlockHash = $previousBlockHash;
+    }
+
+    public static function fromJson($json)
+    {
+        return new static($json['previousblockhash']);
+    }
+
+    public function previousBlockHash()
+    {
+        return $this->previousBlockHash;
+    }
 }

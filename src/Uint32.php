@@ -11,32 +11,8 @@ declare(strict_types=1);
 
 namespace Ing200086\Miner;
 
-class Uint32
+class Uint32 extends Uint32ReadOnly
 {
-    const TYPE_LENGTH = 32;
-
-    protected $data;
-
-    protected function __construct($data)
-    {
-        $this->data = $data;
-    }
-
-    public static function fromRaw($raw)
-    {
-        return new static($raw);
-    }
-
-    public static function fromBin($bin)
-    {
-        return new static(bindec($bin));
-    }
-
-    public static function fromHex($hex)
-    {
-        return new static(hexdec($hex));
-    }
-
     public function shiftLeft($shifts)
     {
         if ($shifts > 0) {
@@ -62,49 +38,34 @@ class Uint32
         return self::fromRaw($this->data & $mask->data);
     }
 
-    public function or(self $term)
+    public function orMerge(self $term)
     {
         return self::fromRaw($this->data | $term->data);
     }
 
     public function byteReversal()
     {
+        $this->endian = self::oppositeEndian($this->endian);
+
         $result = $this->shiftLeft(24)->mask(self::fromHex('FF000000'))
-                  ->or($this->shiftLeft(8)->mask(self::fromHex('00FF0000')))
-                  ->or($this->shiftRight(8)->mask(self::fromHex('0000FF00')))
-                  ->or($this->shiftRight(24)->mask(self::fromHex('000000FF')));
+                  ->orMerge($this->shiftLeft(8)->mask(self::fromHex('00FF0000')))
+                  ->orMerge($this->shiftRight(8)->mask(self::fromHex('0000FF00')))
+                  ->orMerge($this->shiftRight(24)->mask(self::fromHex('000000FF')));
 
         return $result;
     }
 
-    public function raw()
+    protected static function oppositeEndian($current)
     {
-        return $this->data;
+        return ($current == self::BIG_ENDIAN) ? self::LITTLE_ENDIAN : self::BIG_ENDIAN;
     }
 
-    public function bin()
+    public function endian($endian)
     {
-        return self::binValueToLength(decbin($this->raw()));
-    }
+        if ($this->endian != $endian) {
+            return self::fromRaw($this->byteReversal()->raw(), $endian);
+        }
 
-    public function hex()
-    {
-        $hexNoPad = dechex($this->data);
-        return str_pad($hexNoPad, 8, '0', STR_PAD_LEFT);
-    }
-
-    protected static function binValueToLength($original)
-    {
-        return self::truncate(self::pad($original));
-    }
-
-    protected static function pad($original)
-    {
-        return str_pad($original, self::TYPE_LENGTH, '0', STR_PAD_LEFT);
-    }
-
-    protected static function truncate($original, $offset = 0)
-    {
-        return substr($original, -self::TYPE_LENGTH + $offset);
+        return $this;
     }
 }
