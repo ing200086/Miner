@@ -75,7 +75,8 @@
       "@phpcs-lint",
       "@phpcpd",
       "@phpmd",
-      "@phpstan"
+      "@phpstan",
+      "@phpmetrics-report"
     ],
     "reports": [
       "@phpmetrics-report",
