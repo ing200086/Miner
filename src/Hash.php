@@ -14,41 +14,41 @@ namespace Ing200086\Miner;
 class Hash
 {
     protected $data;
+    protected $endian;
 
-    protected function __construct($hexString)
+    protected function __construct($hexString, $endian)
     {
-        $this->data = [];
-        $this->appendHex($hexString);
+        $this->data = $hexString;
+        $this->endian = $endian;
     }
 
-    public static function fromHex($hexString)
+    public static function fromHex($hex, $endian = Uint32::BIG_ENDIAN)
     {
-        return new static($hexString);
+        return new static($hex, $endian);
     }
 
-    protected function appendHex($hexString)
+    public static function fromDec($dec, $endian = Uint32::LITTLE_ENDIAN)
     {
-        $chunks = self::splitHexStringByUint32BitChunks($hexString);
-
-        foreach ($chunks as $bigEndianHexString) {
-            $this->data[] = Uint32::fromHex($bigEndianHexString)->endian(Uint32::BIG_ENDIAN);
-        }
+        $hex = str_pad(dechex($dec), 8, '0', STR_PAD_LEFT);
+        return self::fromHex($hex, $endian);
     }
 
-    public static function splitHexStringByUint32BitChunks($hexString)
+    public function __toString()
     {
-        preg_match_all('/......../', $hexString, $outputArray);
-        return $outputArray[0];
+        return $this->data;
     }
 
-    public function toArray($endian = Uint32::BIG_ENDIAN)
+    public function endian($endian)
     {
-        $output = [];
-
-        foreach ($this->data as $value) {
-            $output[] = $value->endian($endian)->raw();
+        if ($this->endian != $endian) {
+            return self::fromHex($this->swapEndianness($this->data), $endian);
         }
 
-        return $output;
+        return $this;
+    }
+
+    protected function swapEndianness($hex)
+    {
+        return implode(array_reverse(str_split($hex, 2)));
     }
 }

@@ -20,10 +20,10 @@ class BlockExplorerData
 
     public static function multipleTransactions()
     {
-        return self::jsonDecodeFile('BlockExplorerData/multipleTransactions.json');
+        return self::jsonDecodeFile('BlockExplorerData/MultipleTransaction.json');
     }
 
-    protected static function jsonDecodeFile($location)
+    public static function jsonDecodeFile($location)
     {
         $jsonString = file_get_contents($location, true);
         return json_decode($jsonString, true);
