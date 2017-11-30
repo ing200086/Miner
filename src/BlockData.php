@@ -11,69 +11,11 @@ declare(strict_types=1);
 
 namespace Ing200086\Miner;
 
-class BlockData
+class BlockData extends UnsolvedBlockData
 {
-    protected $version;
-    protected $previousBlockHash;
-    protected $merkleRoot;
-
-    protected $time;
-    protected $bits;
-    protected $difficulty;
-
     protected $nonce;
 
-    protected $partialHash;
     protected $blockHash;
-
-    protected function __construct($version, $previousBlockHash, $time, $bits, $merkleRoot)
-    {
-        $this->version = Hash::fromDec($version, Uint32::BIG_ENDIAN)->endian(Uint32::LITTLE_ENDIAN);
-        $this->time = Hash::fromDec($time, Uint32::BIG_ENDIAN)->endian(Uint32::LITTLE_ENDIAN);
-        $this->bits = Hash::fromHex($bits, Uint32::BIG_ENDIAN)->endian(Uint32::LITTLE_ENDIAN);
-
-        $this->previousBlockHash = Hash::fromHex($previousBlockHash, Uint32::BIG_ENDIAN)->endian(Uint32::LITTLE_ENDIAN);
-        $this->merkleRoot = Hash::fromHex($merkleRoot, Uint32::BIG_ENDIAN)->endian(Uint32::LITTLE_ENDIAN);
-
-        $this->partialHash = $this->version . $this->previousBlockHash . $this->merkleRoot .
-                                $this->time . $this->bits;
-    }
-
-    public static function fromJson($json)
-    {
-        return new static(
-            $json['version'],
-            $json['previousblockhash'],
-            $json['time'],
-            $json['bits'],
-            $json['merkleroot']
-        );
-    }
-
-    public function previousBlockHash()
-    {
-        return $this->previousBlockHash;
-    }
-
-    public function time()
-    {
-        return $this->time;
-    }
-
-    public function version()
-    {
-        return $this->version;
-    }
-
-    public function bits()
-    {
-        return $this->bits;
-    }
-
-    public function merkleRoot()
-    {
-        return $this->merkleRoot;
-    }
 
     public function setNonce($nonce)
     {
@@ -101,16 +43,6 @@ class BlockData
         }
 
         return $this->blockHash;
-    }
-
-    public function target()
-    {
-        $bits = $this->bits()->endian(Uint32::BIG_ENDIAN)->__toString();
-        $threshold = hexdec(substr($bits, 0, 2));
-        $mantissa = substr($bits, 2, 6);
-        $target = str_pad($mantissa, 2 * $threshold, '0', STR_PAD_RIGHT);
-
-        return Hash::fromHex($target, Uint32::BIG_ENDIAN);
     }
 
     public function isValid()
