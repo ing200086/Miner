@@ -80,8 +80,8 @@
       "@phpmetrics-report"
     ],
     "reports": [
-      "@phpmetrics-report",
-      "@phpunit-coverage"
+      "@phpunit-coverage",
+      "@phpmetrics-report"
     ],
     "fix": [
       "@editorconfig-fix",
