@@ -16,6 +16,7 @@
   "prefer-stable": true,
   "require": {
     "php": "^7.0",
+    "phpmetrics/composer-extension": "dev-master",
     "symfony/polyfill-php71": "^1.0",
     "symfony/polyfill-php72": "^1.0"
   },
@@ -62,7 +63,7 @@
     "phpcs-fix": "php-cs-fixer fix --verbose",
     "phpcpd": "phpcpd src",
     "phpmd": "phpmd src text unusedcode,naming,design,controversial,codesize",
-    "phpmetrics-report": "phpmetrics --report-html=build/metrics --offline --exclude=build,public,vendor .",
+    "phpmetrics-report": "phpmetrics --report-html=build/metrics --plugins=./vendor/phpmetrics/composer-extension/ComposerExtension.php --offline --exclude=build,public,vendor .",
     "phpstan": "phpstan analyse --level 7 src",
     "phpunit": "phpunit",
     "phpunit-coverage": "phpunit --coverage-html build/coverage",
