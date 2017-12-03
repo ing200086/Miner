@@ -63,7 +63,7 @@
     "phpcs-fix": "php-cs-fixer fix --verbose",
     "phpcpd": "phpcpd src",
     "phpmd": "phpmd src text unusedcode,naming,design,controversial,codesize",
-    "phpmetrics-report": "phpmetrics --report-html=build/metrics --plugins=./vendor/phpmetrics/composer-extension/ComposerExtension.php --junit=./phpunit.xml.dist --offline --exclude=build,public,vendor,tests .",
+    "phpmetrics-report": "phpmetrics --report-html=build/metrics --plugins=./vendor/phpmetrics/composer-extension/ComposerExtension.php --junit=./build/junit/logfile.xml --offline --exclude=build,public,vendor,tests .",
     "phpstan": "phpstan analyse --level 7 src",
     "phpunit": "phpunit",
     "phpunit-coverage": "phpunit --coverage-html build/coverage",
