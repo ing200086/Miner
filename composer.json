@@ -66,8 +66,8 @@
     "phpmetrics-report": "phpmetrics --report-html=build/metrics --plugins=./vendor/phpmetrics/composer-extension/ComposerExtension.php --junit=./build/junit/logfile.xml --offline --exclude=build,public,vendor,tests .",
     "phpstan": "phpstan analyse --level 7 src",
     "phpunit": "phpunit",
-    "phpunit-coverage": "phpunit --coverage-html build/coverage",
-    "phpunit-clover": "phpunit --coverage-clover build/logs/clover.xml",
+    "phpunit-coverage": "phpunit --coverage-html ./build/coverage",
+    "phpunit-clover": "phpunit --coverage-clover ./build/logs/clover.xml",
     "humbug": "humbug",
     "qa": [
       "@php-lint",
