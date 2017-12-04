@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Ing200086\Miner;
+namespace Ing200086\Miner\Hashes;
 
 interface HashInterface
 {

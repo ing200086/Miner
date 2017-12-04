@@ -20,6 +20,7 @@ abstract class AbstractEnum
         if (!$this->isValidConstant($value)) {
             throw new \InvalidArgumentException();
         }
+
         $this->value = $value;
     }
 

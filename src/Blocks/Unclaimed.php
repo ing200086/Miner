@@ -13,8 +13,8 @@ namespace Ing200086\Miner\Blocks;
 
 use Ing200086\Miner\Blocks\Data\BlockDataInterface;
 use Ing200086\Miner\Enums\Endian;
-use Ing200086\Miner\Hash;
-use Ing200086\Miner\HashInterface;
+use Ing200086\Miner\Hashes\Hash;
+use Ing200086\Miner\Hashes\HashInterface;
 
 class Unclaimed extends AbstractData
 {

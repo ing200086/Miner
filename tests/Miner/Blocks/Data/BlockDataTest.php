@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Ing200086\Miner\Tests\Blocks;
 
 use Ing200086\Miner\Blocks\Data\BlockData;
-use Ing200086\Miner\Hash;
+use Ing200086\Miner\Hashes\Hash;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 

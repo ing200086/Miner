@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Ing200086\Miner\Blocks\Data;
 
-use Ing200086\Miner\HashInterface;
+use Ing200086\Miner\Hashes\HashInterface;
 
 interface BlockDataInterface
 {

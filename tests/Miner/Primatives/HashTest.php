@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Ing200086\Miner\Tests\Primatives;
 
 use Ing200086\Miner\Enums\Endian;
-use Ing200086\Miner\Hash;
+use Ing200086\Miner\Hashes\Hash;
 use PHPUnit\Framework\TestCase;
 
 /**
