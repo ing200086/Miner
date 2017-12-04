@@ -26,7 +26,7 @@ class HashTest extends TestCase
      */
     public function canOutputHashFromBigEndianToLittleEndian($source, $expected)
     {
-        $hash = Hash::fromHex($source)->endian((new Endian(Endian::LITTLE)));
+        $hash = Hash::from()::hex($source)->endian((new Endian(Endian::LITTLE)));
 
         $this->assertEquals($expected, $hash);
     }
@@ -37,7 +37,7 @@ class HashTest extends TestCase
      */
     public function canIntepretDecToHexCorrectly($source, $expected)
     {
-        $hash = Hash::fromDec($source)->endian((new Endian(Endian::BIG)));
+        $hash = Hash::from()::decimal($source)->endian((new Endian(Endian::BIG)));
 
         $this->assertEquals($expected, $hash);
     }
@@ -48,7 +48,7 @@ class HashTest extends TestCase
     public function canOutputBinary()
     {
         $source = '1800d0f6';
-        $hash = Hash::fromHex($source)->endian((new Endian(Endian::BIG)));
+        $hash = Hash::from()::hex($source)->endian((new Endian(Endian::BIG)));
         $expected = '0001100000000000' . '1101000011110110';
         $actual = str_pad($hash->into()->binary(), 32, '0', STR_PAD_LEFT);
 
@@ -60,8 +60,8 @@ class HashTest extends TestCase
      */
     public function canAppendTwoHashObjects()
     {
-        $A = Hash::fromHex('1800d0f6');
-        $B = Hash::fromHex('10101010');
+        $A = Hash::from()::hex('1800d0f6');
+        $B = Hash::from()::hex('10101010');
 
         $C = $A->append($B);
 

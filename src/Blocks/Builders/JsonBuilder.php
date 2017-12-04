@@ -34,13 +34,13 @@ class JsonBuilder
 
     protected static function loadHex($term)
     {
-        return Hash::fromHex($term, (new Endian(Endian::BIG)))
+        return Hash::from()::hex($term, (new Endian(Endian::BIG)))
                     ->endian((new Endian(Endian::LITTLE)));
     }
 
     protected static function loadDec($term)
     {
-        return Hash::fromDec($term, (new Endian(Endian::BIG)))
+        return Hash::from()::decimal($term, (new Endian(Endian::BIG)))
                     ->endian((new Endian(Endian::LITTLE)));
     }
 

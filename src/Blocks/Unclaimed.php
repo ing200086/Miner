@@ -41,7 +41,7 @@ class Unclaimed extends AbstractData
         $pass1Hash = hex2bin(hash('sha256', $fullHash));
         $pass2Hash = hash('sha256', $pass1Hash);
 
-        return Hash::fromHex($pass2Hash);
+        return Hash::from()::hex($pass2Hash);
     }
 
     public function testNonce(HashInterface $nonce)

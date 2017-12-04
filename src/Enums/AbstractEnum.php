@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace ing200086\Miner\Enums;
+namespace Ing200086\Miner\Enums;
 
 abstract class AbstractEnum
 {
