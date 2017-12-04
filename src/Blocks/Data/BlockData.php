@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace Ing200086\Miner\Blocks\Data;
 
-use Ing200086\Miner\Uint32;
 use Ing200086\Miner\Enums\Endian;
 use Ing200086\Miner\HashInterface;
 
