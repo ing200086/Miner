@@ -46,7 +46,7 @@ class Unclaimed extends AbstractData
 
     public function testNonce(HashInterface $nonce)
     {
-        $nonce = $nonce->endian(Uint32::LITTLE_ENDIAN);
+        $nonce = $nonce->endian((new Endian(Endian::LITTLE)));
 
         $shot = self::generateHash($this->partialHash, $nonce)->endian((new Endian(Endian::LITTLE)));
         $target = $this->data->target();

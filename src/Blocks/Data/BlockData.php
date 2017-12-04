@@ -11,8 +11,9 @@ declare(strict_types=1);
 
 namespace Ing200086\Miner\Blocks\Data;
 
-use Ing200086\Miner\HashInterface;
 use Ing200086\Miner\Uint32;
+use Ing200086\Miner\Enums\Endian;
+use Ing200086\Miner\HashInterface;
 
 class BlockData implements BlockDataInterface
 {
@@ -36,14 +37,14 @@ class BlockData implements BlockDataInterface
         HashInterface $target,
         HashInterface $nonce = null
     ) {
-        $this->version = $version->endian(Uint32::LITTLE_ENDIAN);
-        $this->previousBlockHash = $previousBlockHash->endian(Uint32::LITTLE_ENDIAN);
-        $this->merkleRoot = $merkleRoot->endian(Uint32::LITTLE_ENDIAN);
-        $this->time = $time->endian(Uint32::LITTLE_ENDIAN);
-        $this->bits = $bits->endian(Uint32::LITTLE_ENDIAN);
-        $this->target = $target->endian(Uint32::LITTLE_ENDIAN);
+        $this->version = $version->endian((new Endian(Endian::LITTLE)));
+        $this->previousBlockHash = $previousBlockHash->endian((new Endian(Endian::LITTLE)));
+        $this->merkleRoot = $merkleRoot->endian((new Endian(Endian::LITTLE)));
+        $this->time = $time->endian((new Endian(Endian::LITTLE)));
+        $this->bits = $bits->endian((new Endian(Endian::LITTLE)));
+        $this->target = $target->endian((new Endian(Endian::LITTLE)));
 
-        $this->nonce = $nonce ? $nonce->endian(Uint32::LITTLE_ENDIAN) : null;
+        $this->nonce = $nonce ? $nonce->endian((new Endian(Endian::LITTLE))) : null;
     }
 
     public function previousBlockHash(): HashInterface
