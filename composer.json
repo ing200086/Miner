@@ -74,7 +74,7 @@
       "@php-lint",
       "@editorconfig-lint",
       "@phpcs",
-      "@phpcs-lint",
+      "@phpcs-fix",
       "@phpcpd",
       "@phpmd",
       "@phpstan",

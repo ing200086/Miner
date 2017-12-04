@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Ing200086\Miner\Blocks;
 
 use Ing200086\Miner\Blocks\Data\BlockDataInterface;
+use Ing200086\Miner\Enums\Endian;
 use Ing200086\Miner\Hash;
 use Ing200086\Miner\HashInterface;
 use Ing200086\Miner\Uint32;
@@ -47,7 +48,7 @@ class Unclaimed extends AbstractData
     {
         $nonce = $nonce->endian(Uint32::LITTLE_ENDIAN);
 
-        $shot = self::generateHash($this->partialHash, $nonce)->endian(Uint32::LITTLE_ENDIAN);
+        $shot = self::generateHash($this->partialHash, $nonce)->endian((new Endian(Endian::LITTLE)));
         $target = $this->data->target();
 
         return hexdec($shot) < hexdec($target);

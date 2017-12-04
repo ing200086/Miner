@@ -12,8 +12,8 @@ declare(strict_types=1);
 namespace Ing200086\Miner\Blocks\Builders;
 
 use Ing200086\Miner\Blocks\Unclaimed;
+use Ing200086\Miner\Enums\Endian;
 use Ing200086\Miner\Hash;
-use Ing200086\Miner\Uint32;
 
 class JsonBuilder
 {
@@ -34,17 +34,19 @@ class JsonBuilder
 
     protected static function loadHex($term)
     {
-        return Hash::fromHex($term, Uint32::BIG_ENDIAN)->endian(Uint32::LITTLE_ENDIAN);
+        return Hash::fromHex($term, (new Endian(Endian::BIG)))
+                    ->endian((new Endian(Endian::LITTLE)));
     }
 
     protected static function loadDec($term)
     {
-        return Hash::fromDec($term, Uint32::BIG_ENDIAN)->endian(Uint32::LITTLE_ENDIAN);
+        return Hash::fromDec($term, (new Endian(Endian::BIG)))
+                    ->endian((new Endian(Endian::LITTLE)));
     }
 
     protected static function uncompressTarget($bits)
     {
-        $bits = $bits->endian(Uint32::BIG_ENDIAN)->__toString();
+        $bits = $bits->endian((new Endian(Endian::BIG)))->__toString();
         $threshold = hexdec(substr($bits, 0, 2));
         $mantissa = substr($bits, 2, 6);
         $target = str_pad($mantissa, 2 * $threshold, '0', STR_PAD_RIGHT);

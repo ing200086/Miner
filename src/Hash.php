@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace Ing200086\Miner;
 
+use Ing200086\Miner\Enums\Endian;
+
 class Hash implements HashInterface
 {
     protected $data;
@@ -22,13 +24,15 @@ class Hash implements HashInterface
         $this->endian = $endian;
     }
 
-    public static function fromHex($hex, $endian = Uint32::BIG_ENDIAN)
+    public static function fromHex($hex, Endian $endian = null)
     {
+        $endian = ($endian) ?: new Endian(Endian::BIG);
         return new static($hex, $endian);
     }
 
-    public static function fromDec($dec, $endian = Uint32::LITTLE_ENDIAN)
+    public static function fromDec($dec, Endian $endian = null)
     {
+        $endian = ($endian) ?: new Endian(Endian::LITTLE);
         $hex = str_pad(dechex($dec), 8, '0', STR_PAD_LEFT);
         return self::fromHex($hex, $endian);
     }
@@ -57,15 +61,25 @@ class Hash implements HashInterface
         return self::fromHex($this->data . $tail, $this->endian);
     }
 
-    public function asDecimal()
+    public function into(HashFormatter $formatter = null)
     {
-        return hexdec($this->data);
+        $formatter = ($formatter) ?: (new HashFormatter());
+        $formatter->load($this->data);
+
+        return $formatter;
     }
 
-    public function asBinary()
-    {
-        return decbin(hexdec($this->data));
-    }
+    // public function asDecimal()
+    // {
+    //     $formatter = new HashFormatter($this->data);
+    //     return $formatter->decimal();
+    // }
+
+    // public function asBinary()
+    // {
+    //     $formatter = new HashFormatter($this->data);
+    //     return $formatter->binary();
+    // }
 
     protected function swapEndianness($hex)
     {

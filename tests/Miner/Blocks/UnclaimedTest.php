@@ -24,7 +24,6 @@ class UnclaimedTest extends TestCase
 {
     /**
      * @test
-     * @group  Focus
      */
     public function canTestNonceAgainstBlockData()
     {
