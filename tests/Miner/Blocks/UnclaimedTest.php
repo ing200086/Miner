@@ -15,7 +15,6 @@ use Ing200086\Miner\Blocks\Data\BlockDataInterface;
 use Ing200086\Miner\Blocks\Unclaimed as UnclaimedBlock;
 use Ing200086\Miner\HashInterface;
 use Ing200086\Miner\Tests\BlockExplorerData\DataProvider;
-use Ing200086\Miner\Uint32;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -29,7 +28,6 @@ class UnclaimedTest extends TestCase
      */
     public function canTestNonceAgainstBlockData()
     {
-        $this->markTestIncomplete('refactoring');
         $nonce = \Mockery::mock(HashInterface::class);
         $nonce->shouldReceive('endian')->andReturnSelf();
         $nonce->shouldReceive('__toString')->andReturn('1209d00e');
@@ -39,20 +37,6 @@ class UnclaimedTest extends TestCase
         $block = new UnclaimedBlock($blockData);
 
         $this->assertTrue($block->testNonce($nonce));
-    }
-
-    /**
-     * @test
-     */
-    public function canGenerateTarget()
-    {
-        $this->markTestIncomplete('refactoring');
-        $jsonData = DataProvider::oneTransaction();
-        $block = UnclaimedBlock::fromJson($jsonData);
-
-        $target = $block->target()->endian(Uint32::LITTLE_ENDIAN);
-
-        $this->assertEquals('000000000000000000000000000000000000000000f6d000', $target);
     }
 
     protected function littleEndian($value)

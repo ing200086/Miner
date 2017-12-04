@@ -33,26 +33,22 @@ class Unclaimed extends AbstractData
                                 $this->data->time() . $this->data->bits();
     }
 
-    protected static function generateHash(string $partialHash, HashInterface $nonce): string
+    protected static function generateHash(string $partialHash, HashInterface $nonce): HashInterface
     {
         $fullHash = hex2bin($partialHash . $nonce);
 
         $pass1Hash = hex2bin(hash('sha256', $fullHash));
         $pass2Hash = hash('sha256', $pass1Hash);
 
-        return $pass2Hash;
+        return Hash::fromHex($pass2Hash);
     }
 
     public function testNonce(HashInterface $nonce)
     {
         $nonce = $nonce->endian(Uint32::LITTLE_ENDIAN);
 
-        $shot = self::generateHash($this->partialHash, $nonce);
-        $target = $this->data->target(); //->endian(Uint32::BIG_ENDIAN);
-
-        var_dump($shot);
-        var_dump(hexdec($shot));
-        var_dump(hexdec($target));
+        $shot = self::generateHash($this->partialHash, $nonce)->endian(Uint32::LITTLE_ENDIAN);
+        $target = $this->data->target();
 
         return hexdec($shot) < hexdec($target);
     }

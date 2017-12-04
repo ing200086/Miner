@@ -52,6 +52,21 @@ class Hash implements HashInterface
         return $this;
     }
 
+    public function append(HashInterface $tail)
+    {
+        return self::fromHex($this->data . $tail, $this->endian);
+    }
+
+    public function asDecimal()
+    {
+        return hexdec($this->data);
+    }
+
+    public function asBinary()
+    {
+        return decbin(hexdec($this->data));
+    }
+
     protected function swapEndianness($hex)
     {
         return implode(array_reverse(str_split($hex, 2)));

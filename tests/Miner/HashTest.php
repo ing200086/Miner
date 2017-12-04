@@ -23,13 +23,49 @@ class HashTest extends TestCase
     /**
      * @test
      * @dataProvider hexStringEndianFlipProvider
-     * @group  Focus
      */
     public function canOutputHashFromBigEndianToLittleEndian($source, $expected)
     {
         $hash = Hash::fromHex($source)->endian(Uint32::LITTLE_ENDIAN);
 
         $this->assertEquals($expected, $hash);
+    }
+
+    /**
+     * @test
+     * @dataProvider decToHexProvider
+     */
+    public function canIntepretDecToHexCorrectly($source, $expected)
+    {
+        $hash = Hash::fromDec($source)->endian(Uint32::BIG_ENDIAN);
+
+        $this->assertEquals($expected, $hash);
+    }
+
+    /**
+     * @test
+     */
+    public function canOutputBinary()
+    {
+        $source = '1800d0f6';
+        $hash = Hash::fromHex($source)->endian(Uint32::BIG_ENDIAN);
+        $expected = '0001100000000000' . '1101000011110110';
+        $actual = str_pad($hash->asBinary(), 32, '0', STR_PAD_LEFT);
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @test
+     */
+    public function canAppendTwoHashObjects()
+    {
+        $A = Hash::fromHex('1800d0f6');
+        $B = Hash::fromHex('10101010');
+
+        $C = $A->append($B);
+
+        $this->assertEquals('1800d0f610101010', $C);
     }
 
     public function hexStringEndianFlipProvider()
@@ -54,18 +90,6 @@ class HashTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider decToHexProvider
-     * @group  Focus
-     */
-    public function canIntepretDecToHexCorrectly($source, $expected)
-    {
-        $hash = Hash::fromDec($source)->endian(Uint32::BIG_ENDIAN);
-
-        $this->assertEquals($expected, $hash);
-    }
-
     public function decToHexProvider()
     {
         return [
@@ -74,18 +98,5 @@ class HashTest extends TestCase
             [1511817836, '6c821c5a'],
             [248514834, '1209d00e'],
         ];
-    }
-
-    /**
-     * @test`
-     */
-    public function canOutputBinary()
-    {
-        $source = '1800d0f6';
-        $hash = Hash::fromHex($source)->endian(Uint32::BIG_ENDIAN);
-        $expected = '0001100000000000' . '1101000011110110';
-        $actual = str_pad(decbin(hexdec($hash->__toString())), 32, '0', STR_PAD_LEFT);
-
-        $this->assertEquals($expected, $actual);
     }
 }
