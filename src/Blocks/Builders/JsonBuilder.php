@@ -11,25 +11,24 @@ declare(strict_types=1);
 
 namespace Ing200086\Miner\Blocks\Builders;
 
-use Ing200086\Miner\Blocks\Unclaimed;
-use Ing200086\Miner\Enums\Endian;
 use Ing200086\Miner\Hash;
+use Ing200086\Miner\Enums\Endian;
+use Ing200086\Miner\Blocks\Data\BlockData;
 
 class JsonBuilder
 {
     public static function fromJson($json)
     {
-        $json = 0;
-        // $version = self::loadDec($json['version']);
-        // $time = self::loadDec($json['time']);
+        $version = self::loadDec($json['version']);
+        $time = self::loadDec($json['time']);
 
-        // $bits = self::loadHex($json['bits']);
-        // $target = self::uncompressTarget($bits);
+        $bits = self::loadHex($json['bits']);
+        $target = self::uncompressTarget($bits);
 
-        // $previousBlockHash = self::loadHex($json['previousblockhash']);
-        // $merkleRoot = self::loadHex($json['merkleroot']);
+        $previousBlockHash = self::loadHex($json['previousblockhash']);
+        $merkleRoot = self::loadHex($json['merkleroot']);
 
-        // return new Unclaimed($version, $previousBlockHash, $time, $bits, $merkleRoot, $target);
+        return new BlockData($version, $previousBlockHash, $merkleRoot, $time, $bits, $target);
     }
 
     protected static function loadHex($term)
