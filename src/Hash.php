@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Ing200086\Miner;
 
-class Hash
+class Hash implements HashInterface
 {
     protected $data;
     protected $endian;
@@ -38,7 +38,12 @@ class Hash
         return $this->data;
     }
 
-    public function endian($endian)
+    public function hexString(): string
+    {
+        return $this->data;
+    }
+
+    public function endian($endian): HashInterface
     {
         if ($this->endian != $endian) {
             return self::fromHex($this->swapEndianness($this->data), $endian);

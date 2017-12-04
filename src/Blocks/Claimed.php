@@ -9,13 +9,18 @@
 
 declare(strict_types=1);
 
-namespace Ing200086\Miner;
+namespace Ing200086\Miner\Blocks;
 
-class BlockData extends UnsolvedBlockData
+use Ing200086\Miner\Hash;
+use Ing200086\Miner\Uint32;
+
+class Claimed extends AbstractData
 {
     protected $nonce;
 
     protected $blockHash;
+
+    protected $partialHash;
 
     public function setNonce($nonce)
     {

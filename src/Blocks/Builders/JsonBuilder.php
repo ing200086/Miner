@@ -9,22 +9,27 @@
 
 declare(strict_types=1);
 
-namespace Ing200086\Miner;
+namespace Ing200086\Miner\Blocks\Builders;
 
-class UnsolvedBlockBuilder
+use Ing200086\Miner\Blocks\Unclaimed;
+use Ing200086\Miner\Hash;
+use Ing200086\Miner\Uint32;
+
+class JsonBuilder
 {
     public static function fromJson($json)
     {
-        $version = self::loadDec($json['version']);
-        $time = self::loadDec($json['time']);
+        $json = 0;
+        // $version = self::loadDec($json['version']);
+        // $time = self::loadDec($json['time']);
 
-        $bits = self::loadHex($json['bits']);
-        $target = self::uncompressTarget($bits);
+        // $bits = self::loadHex($json['bits']);
+        // $target = self::uncompressTarget($bits);
 
-        $previousBlockHash = self::loadHex($json['previousblockhash']);
-        $merkleRoot = self::loadHex($json['merkleroot']);
+        // $previousBlockHash = self::loadHex($json['previousblockhash']);
+        // $merkleRoot = self::loadHex($json['merkleroot']);
 
-        return new BlockData($version, $previousBlockHash, $time, $bits, $merkleRoot, $target);
+        // return new Unclaimed($version, $previousBlockHash, $time, $bits, $merkleRoot, $target);
     }
 
     protected static function loadHex($term)
