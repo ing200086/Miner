@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace Ing200086\Miner\Tests\Primatives;
 
-use Ing200086\Miner\Enums\Endian;
 use Ing200086\Miner\Hashes\Hash;
 use PHPUnit\Framework\TestCase;
 
@@ -23,7 +22,7 @@ class HashTest extends TestCase
      */
     public function canOutputHashFromBigEndianToLittleEndian($source, $expected)
     {
-        $hash = Hash::from()::hex($source)->endian((new Endian(Endian::LITTLE)));
+        $hash = Hash::from()::hex($source)->endian()->little();
 
         $this->assertEquals($expected, $hash);
     }
@@ -34,7 +33,7 @@ class HashTest extends TestCase
      */
     public function canIntepretDecToHexCorrectly($source, $expected)
     {
-        $hash = Hash::from()::decimal($source)->endian((new Endian(Endian::BIG)));
+        $hash = Hash::from()::decimal($source)->endian()->big();
 
         $this->assertEquals($expected, $hash);
     }
@@ -45,7 +44,7 @@ class HashTest extends TestCase
     public function canOutputBinary()
     {
         $source = '1800d0f6';
-        $hash = Hash::from()::hex($source)->endian((new Endian(Endian::BIG)));
+        $hash = Hash::from()::hex($source)->endian()->big();
         $expected = '0001100000000000' . '1101000011110110';
         $actual = str_pad($hash->into()->binary(), 32, '0', STR_PAD_LEFT);
 

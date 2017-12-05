@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace Ing200086\Miner\Blocks\Data;
 
-use Ing200086\Miner\Enums\Endian;
 use Ing200086\Miner\Hashes\HashInterface;
 
 class BlockData implements BlockDataInterface
@@ -36,14 +35,14 @@ class BlockData implements BlockDataInterface
         HashInterface $target,
         HashInterface $nonce = null
     ) {
-        $this->version = $version->endian((new Endian(Endian::LITTLE)));
-        $this->previousBlockHash = $previousBlockHash->endian((new Endian(Endian::LITTLE)));
-        $this->merkleRoot = $merkleRoot->endian((new Endian(Endian::LITTLE)));
-        $this->time = $time->endian((new Endian(Endian::LITTLE)));
-        $this->bits = $bits->endian((new Endian(Endian::LITTLE)));
-        $this->target = $target->endian((new Endian(Endian::LITTLE)));
+        $this->version = $version->endian()->little();
+        $this->previousBlockHash = $previousBlockHash->endian()->little();
+        $this->merkleRoot = $merkleRoot->endian()->little();
+        $this->time = $time->endian()->little();
+        $this->bits = $bits->endian()->little();
+        $this->target = $target->endian()->little();
 
-        $this->nonce = $nonce ? $nonce->endian((new Endian(Endian::LITTLE))) : null;
+        $this->nonce = $nonce ? $nonce->endian()->little() : null;
     }
 
     public function previousBlockHash(): HashInterface

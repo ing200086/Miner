@@ -27,7 +27,7 @@ class BlockDataTest extends TestCase
     public function canLoadHashedVersion()
     {
         $hash = Mockery::mock(Hash::class);
-        $hash->shouldReceive('endian')->andReturnSelf();
+        $hash->shouldReceive('endian->little')->andReturn($hash);
 
         $blockData = new BlockData($hash, $hash, $hash, $hash, $hash, $hash);
 
@@ -41,7 +41,7 @@ class BlockDataTest extends TestCase
     public function canLoadHashedTime()
     {
         $hash = Mockery::mock(Hash::class);
-        $hash->shouldReceive('endian')->andReturnSelf();
+        $hash->shouldReceive('endian->little')->andReturn($hash);
 
         $blockData = new BlockData($hash, $hash, $hash, $hash, $hash, $hash);
 
@@ -55,7 +55,7 @@ class BlockDataTest extends TestCase
     public function canLoadPreviousBlockHash()
     {
         $hash = Mockery::mock(Hash::class);
-        $hash->shouldReceive('endian')->andReturnSelf();
+        $hash->shouldReceive('endian->little')->andReturn($hash);
 
         $blockData = new BlockData($hash, $hash, $hash, $hash, $hash, $hash);
 
@@ -69,7 +69,7 @@ class BlockDataTest extends TestCase
     public function canLoadMerkleRoot()
     {
         $hash = Mockery::mock(Hash::class);
-        $hash->shouldReceive('endian')->andReturnSelf();
+        $hash->shouldReceive('endian->little')->andReturn($hash);
 
         $blockData = new BlockData($hash, $hash, $hash, $hash, $hash, $hash);
 
@@ -83,7 +83,7 @@ class BlockDataTest extends TestCase
     public function canLoadHashedBits()
     {
         $hash = Mockery::mock(Hash::class);
-        $hash->shouldReceive('endian')->andReturnSelf();
+        $hash->shouldReceive('endian->little')->andReturn($hash);
 
         $blockData = new BlockData($hash, $hash, $hash, $hash, $hash, $hash);
 
@@ -96,7 +96,7 @@ class BlockDataTest extends TestCase
     public function canGenerateTarget()
     {
         $hash = Mockery::mock(Hash::class);
-        $hash->shouldReceive('endian')->andReturnSelf();
+        $hash->shouldReceive('endian->little')->andReturn($hash);
 
         $blockData = new BlockData($hash, $hash, $hash, $hash, $hash, $hash);
 

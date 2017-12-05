@@ -34,14 +34,11 @@ class Hash implements HashInterface
         return $this->data;
     }
 
-    public function endian($endian): HashInterface
+    public function endian()
     {
-        if ($this->endian != $endian) {
-            $data = $this->swapEndianness($this->data);
-            return self::from()::hex($data, $endian);
-        }
+        $swap = new HashEndianSwapper($this, $this->endian);
 
-        return $this;
+        return $swap;
     }
 
     public function append(HashInterface $tail): HashInterface

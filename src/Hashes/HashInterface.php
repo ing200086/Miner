@@ -15,9 +15,9 @@ interface HashInterface
 {
     public static function from(): HashCreator;
 
-    public function endian($endian): self;
+    public function endian();
 
     public function into(): HashFormatter;
 
-    // public function append(HashInterface $tail) : HashInterface;
+    public function __toString();
 }

@@ -12,11 +12,10 @@ declare(strict_types=1);
 namespace Ing200086\Miner\Blocks;
 
 use Ing200086\Miner\Blocks\Data\BlockDataInterface;
-use Ing200086\Miner\Enums\Endian;
 use Ing200086\Miner\Hashes\Hash;
 use Ing200086\Miner\Hashes\HashInterface;
 
-class Unclaimed extends AbstractData
+class Unclaimed
 {
     protected $data;
 
@@ -45,9 +44,9 @@ class Unclaimed extends AbstractData
 
     public function testNonce(HashInterface $nonce)
     {
-        $nonce = $nonce->endian((new Endian(Endian::LITTLE)));
+        $nonce = $nonce->endian()->little();
 
-        $shot = self::generateHash($this->partialHash, $nonce)->endian((new Endian(Endian::LITTLE)));
+        $shot = self::generateHash($this->partialHash, $nonce)->endian()->little();
         $target = $this->data->target();
 
         return hexdec($shot) < hexdec($target);
