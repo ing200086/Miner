@@ -15,9 +15,14 @@ class HashFormatter
 {
     protected $data;
 
-    public function load($data)
+    public function load(HashInterface $data)
     {
         $this->data = $data;
+    }
+
+    public function hex()
+    {
+        return $this->data->__toString();
     }
 
     public function decimal()

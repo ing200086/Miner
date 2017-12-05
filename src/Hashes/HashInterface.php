@@ -11,9 +11,14 @@ declare(strict_types=1);
 
 namespace Ing200086\Miner\Hashes;
 
+use Ing200086\Miner\Hashes\HashCreator;
+use Ing200086\Miner\Hashes\HashFormatter;
+
 interface HashInterface
 {
-    public function endian($endian): self;
+    public static function from() : HashCreator;
 
-    public function hexString(): string;
+    public function endian($endian): self;
+    public function into() : HashFormatter;
+    // public function append(HashInterface $tail) : HashInterface;
 }
