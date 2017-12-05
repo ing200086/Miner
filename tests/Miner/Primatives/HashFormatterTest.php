@@ -11,12 +11,10 @@ declare(strict_types=1);
 
 namespace Ing200086\Miner\Tests\Primatives;
 
-use PHPUnit\Framework\TestCase;
 use Ing200086\Miner\Hashes\HashFormatter;
 use Ing200086\Miner\Hashes\HashInterface;
+use PHPUnit\Framework\TestCase;
 
-/**
- */
 class HashFormatterTest extends TestCase
 {
     /**

@@ -15,8 +15,6 @@ use Ing200086\Miner\Enums\Endian;
 use Ing200086\Miner\Hashes\Hash;
 use PHPUnit\Framework\TestCase;
 
-/**
- */
 class HashTest extends TestCase
 {
     /**

@@ -24,7 +24,7 @@ class Hash implements HashInterface
         $this->endian = $endian;
     }
 
-    public static function from() : HashCreator
+    public static function from(): HashCreator
     {
         return new HashCreator();
     }
@@ -44,12 +44,12 @@ class Hash implements HashInterface
         return $this;
     }
 
-    public function append(HashInterface $tail) : HashInterface
+    public function append(HashInterface $tail): HashInterface
     {
         return self::from()::hex($this->data . $tail, $this->endian);
     }
 
-    public function into(HashFormatter $formatter = null) : HashFormatter
+    public function into(HashFormatter $formatter = null): HashFormatter
     {
         $formatter = ($formatter) ?: (new HashFormatter());
         $formatter->load($this);

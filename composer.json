@@ -78,6 +78,7 @@
       "@phpcpd",
       "@phpmd",
       "@phpstan",
+      "@phpunit-coverage",
       "@phpmetrics-report"
     ],
     "reports": [
