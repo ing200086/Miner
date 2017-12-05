@@ -93,7 +93,8 @@
     "test": [
       "@php-lint",
       "@phpunit",
-      "@humbug"
+      "@humbug",
+      "@reports"
     ]
   },
   "extra": {
