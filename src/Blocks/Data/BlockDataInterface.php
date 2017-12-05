@@ -26,6 +26,4 @@ interface BlockDataInterface
     public function merkleRoot(): HashInterface;
 
     public function target(): HashInterface;
-
-    public function nonce(): HashInterface;
 }

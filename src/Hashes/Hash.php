@@ -24,14 +24,14 @@ class Hash implements HashInterface
         $this->endian = $endian;
     }
 
+    public function append(HashInterface $tail): HashInterface
+    {
+        return self::from()::hex($this->data . $tail, $this->endian);
+    }
+
     public static function from(): HashCreator
     {
         return new HashCreator();
-    }
-
-    public function __toString()
-    {
-        return $this->data;
     }
 
     public function endian()
@@ -41,21 +41,13 @@ class Hash implements HashInterface
         return $swap;
     }
 
-    public function append(HashInterface $tail): HashInterface
+    public function into()
     {
-        return self::from()::hex($this->data . $tail, $this->endian);
+        return (new HashFormatter())->load($this);
     }
 
-    public function into(HashFormatter $formatter = null): HashFormatter
+    public function __toString()
     {
-        $formatter = ($formatter) ?: (new HashFormatter());
-        $formatter->load($this);
-
-        return $formatter;
-    }
-
-    protected function swapEndianness($hex)
-    {
-        return implode(array_reverse(str_split($hex, 2)));
+        return $this->data;
     }
 }

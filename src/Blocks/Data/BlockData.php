@@ -15,16 +15,7 @@ use Ing200086\Miner\Hashes\HashInterface;
 
 class BlockData implements BlockDataInterface
 {
-    protected $version;
-    protected $previousBlockHash;
-    protected $merkleRoot;
-
-    protected $time;
-    protected $bits;
-
-    protected $target;
-
-    protected $nonce;
+    use BlockDataTrait;
 
     public function __construct(
         HashInterface $version,
@@ -32,8 +23,7 @@ class BlockData implements BlockDataInterface
         HashInterface $merkleRoot,
         HashInterface $time,
         HashInterface $bits,
-        HashInterface $target,
-        HashInterface $nonce = null
+        HashInterface $target
     ) {
         $this->version = $version->endian()->little();
         $this->previousBlockHash = $previousBlockHash->endian()->little();
@@ -41,42 +31,5 @@ class BlockData implements BlockDataInterface
         $this->time = $time->endian()->little();
         $this->bits = $bits->endian()->little();
         $this->target = $target->endian()->little();
-
-        $this->nonce = $nonce ? $nonce->endian()->little() : null;
-    }
-
-    public function previousBlockHash(): HashInterface
-    {
-        return $this->previousBlockHash;
-    }
-
-    public function time(): HashInterface
-    {
-        return $this->time;
-    }
-
-    public function version(): HashInterface
-    {
-        return $this->version;
-    }
-
-    public function bits(): HashInterface
-    {
-        return $this->bits;
-    }
-
-    public function merkleRoot(): HashInterface
-    {
-        return $this->merkleRoot;
-    }
-
-    public function target(): HashInterface
-    {
-        return $this->target;
-    }
-
-    public function nonce(): HashInterface
-    {
-        return $this->nonce;
     }
 }

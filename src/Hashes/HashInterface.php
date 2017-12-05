@@ -17,7 +17,7 @@ interface HashInterface
 
     public function endian();
 
-    public function into(): HashFormatter;
+    public function into();
 
     public function __toString();
 }

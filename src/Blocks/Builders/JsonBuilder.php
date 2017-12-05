@@ -11,45 +11,28 @@ declare(strict_types=1);
 
 namespace Ing200086\Miner\Blocks\Builders;
 
-use Ing200086\Miner\Blocks\Data\BlockData;
-use Ing200086\Miner\Enums\Endian;
-use Ing200086\Miner\Hashes\Hash;
+use Ing200086\Miner\Hashes\HashInterface;
 
-class JsonBuilder
+class JsonBuilder extends AbstractBlockDataBuilder
 {
-    public static function fromJson($json)
+    public function load($data): void
     {
-        $version = self::loadDec($json['version']);
-        $time = self::loadDec($json['time']);
+        $this->version = self::loadDec($data['version']);
+        $this->time = self::loadDec($data['time']);
 
-        $bits = self::loadHex($json['bits']);
-        $target = self::uncompressTarget($bits);
+        $this->bits = self::loadHex($data['bits']);
 
-        $previousBlockHash = self::loadHex($json['previousblockhash']);
-        $merkleRoot = self::loadHex($json['merkleroot']);
+        $this->previousBlockHash = self::loadHex($data['previousblockhash']);
+        $this->merkleRoot = self::loadHex($data['merkleroot']);
 
-        return new BlockData($version, $previousBlockHash, $merkleRoot, $time, $bits, $target);
+        $this->target = self::uncompressTarget($this->bits->endian()->big());
     }
 
-    protected static function loadHex($term)
+    protected function uncompressTarget(HashInterface $bits): HashInterface
     {
-        return Hash::from()::hex($term, (new Endian(Endian::BIG)))
-                    ->endian((new Endian(Endian::LITTLE)));
-    }
+        $padLength = 2 * $bits->into()->decimalSubstr(0, 2);
+        $target = $bits->into()->hexSubstr(2, 6, $padLength);
 
-    protected static function loadDec($term)
-    {
-        return Hash::from()::decimal($term, (new Endian(Endian::BIG)))
-                    ->endian((new Endian(Endian::LITTLE)));
-    }
-
-    protected static function uncompressTarget($bits)
-    {
-        $bits = $bits->endian((new Endian(Endian::BIG)))->__toString();
-        $threshold = hexdec(substr($bits, 0, 2));
-        $mantissa = substr($bits, 2, 6);
-        $target = str_pad($mantissa, 2 * $threshold, '0', STR_PAD_RIGHT);
-
-        return self::loadHex($target);
+        return $this->loadHex($target);
     }
 }

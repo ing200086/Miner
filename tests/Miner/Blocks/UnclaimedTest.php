@@ -29,7 +29,7 @@ class UnclaimedTest extends TestCase
     {
         $nonce = \Mockery::mock(HashInterface::class);
         $nonce->shouldReceive('endian->little')->andReturn($nonce);
-        $nonce->shouldReceive('__toString')->andReturn('1209d00e');
+        $nonce->shouldReceive('into->hex')->andReturn('1209d00e');
 
         $blockData = $this->createMockDataBlock();
 
@@ -83,6 +83,7 @@ class UnclaimedTest extends TestCase
     {
         $hash = \Mockery::mock(HashInterface::class);
         $hash->shouldReceive('__toString')->andReturn($returnValue);
+        $hash->shouldReceive('into->decimal')->andReturn(hexdec($returnValue));
 
         return $hash;
     }

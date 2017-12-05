@@ -38,13 +38,16 @@ class HashEndianSwapper
 
     protected function swap(Endian $destEndian)
     {
-        if ($this->endian == $destEndian) {
+        if ($this->isInDestinationEndian($destEndian)) {
             return $this->hash;
         }
 
-        $hex = self::swapEndianness($this->hash);
+        return $this->creator::hex(self::swapEndianness($this->hash), $destEndian);
+    }
 
-        return $this->creator::hex($hex, $destEndian);
+    protected function isInDestinationEndian(Endian $destEndian): bool
+    {
+        return $this->endian == $destEndian;
     }
 
     protected static function swapEndianness(HashInterface $hex)
