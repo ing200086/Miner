@@ -17,18 +17,11 @@ use Ing200086\Miner\Hashes\HashInterface;
 
 class Unclaimed implements UnclaimedInterface
 {
-    protected $hashCreator;
     protected $data;
-
-    protected $hash;
-    protected $partialHash;
 
     public function __construct(BlockDataInterface $data)
     {
-        $this->hashCreator = new HashCreator();
         $this->data = $data;
-
-        $this->hash = [];
     }
 
     public function testNonce(HashInterface $nonce)
