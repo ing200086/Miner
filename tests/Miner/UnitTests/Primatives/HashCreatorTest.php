@@ -15,7 +15,6 @@ use Ing200086\Miner\Hashes\HashCreator;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group  Focus
  */
 class HashCreatorTest extends TestCase
 {

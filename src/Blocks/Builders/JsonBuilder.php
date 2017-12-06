@@ -31,7 +31,7 @@ class JsonBuilder extends AbstractBlockDataBuilder implements BlockDataBuilderIn
     protected function uncompressTarget(HashInterface $bits): HashInterface
     {
         $padLength = 2 * $bits->into()->decimalSubstr(0, 2);
-        $target = $bits->into()->hexSubstr(2, 6, $padLength);
+        $target = $bits->into()->hexSubstr(2, 8, $padLength);
 
         return $this->loadHex($target);
     }

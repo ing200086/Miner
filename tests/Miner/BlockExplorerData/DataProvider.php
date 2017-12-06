@@ -33,6 +33,11 @@ class DataProvider
         return self::jsonDecodeFile('OneTransaction.json');
     }
 
+    public static function invalidTransactionWithSpecialTarget()
+    {
+        return self::jsonDecodeFile('InvalidTransactionWithSpecialTarget.json');
+    }
+
     public static function multipleTransactions()
     {
         return self::jsonDecodeFile('MultipleTransaction.json');

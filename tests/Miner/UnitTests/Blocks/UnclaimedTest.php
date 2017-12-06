@@ -14,7 +14,6 @@ namespace Ing200086\Miner\Tests\UnitTests\Blocks;
 use Ing200086\Miner\Blocks\Data\BlockDataInterface;
 use Ing200086\Miner\Blocks\Unclaimed as UnclaimedBlock;
 use Ing200086\Miner\Hashes\HashInterface;
-use Ing200086\Miner\Tests\BlockExplorerData\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**

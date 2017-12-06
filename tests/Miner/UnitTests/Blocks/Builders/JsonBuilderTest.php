@@ -38,9 +38,26 @@ class JsonBuilderTest extends TestCase
             $json['previousblockhash'],
             $blockData->previousBlockHash()->endian()->big()->into()->hex()
         );
+    }
+
+    /**
+     * The transaction used for this one is modified since the other targets had
+     * leading/following zeros which could be missed
+     * @test
+     * @group  Focus
+     */
+    public function canDecompressSpecialTargetedTransaction()
+    {
+        $json = DataProvider::invalidTransactionWithSpecialTarget();
+        $builder = new JsonBuilder();
+
+        $builder->load($json);
+        $blockData = $builder->build();
+
+        $this->assertInstanceOf(BlockData::class, $blockData);
 
         $this->assertEquals(
-            '000000000000000000000000000000000000000000f6d000',
+            '000000000000000000000000000000000000000000f6d111',
             $blockData->target()->into()->hex()
         );
     }

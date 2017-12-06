@@ -15,7 +15,6 @@ use Ing200086\Miner\Enums\Endian;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group  Focus
  */
 class EndianEnumTest extends TestCase
 {

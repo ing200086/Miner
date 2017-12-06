@@ -45,7 +45,6 @@ class HashFormatterTest extends TestCase
 
     /**
      * @test
-     * @group  Focus
      */
     public function callingSubstringOutsideBoundsOfOriginalThrowsError()
     {

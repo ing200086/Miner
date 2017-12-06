@@ -31,7 +31,7 @@ class HashFormatter implements HashFormatterInterface
         $fullHex = $this->hex();
 
         if ($end > strlen($fullHex)) {
-            throw new \Exception("End of substring is out of bounds");
+            throw new \Exception('End of substring is out of bounds');
         }
 
         return str_pad(substr($fullHex, $start, $end), $padRight, '0', STR_PAD_RIGHT);

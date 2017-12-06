@@ -11,12 +11,12 @@ declare(strict_types=1);
 
 namespace Ing200086\Miner\Blocks\Builders;
 
+use Ing200086\Miner\Blocks\Data\BlockData;
+use Ing200086\Miner\Blocks\Data\BlockDataInterface;
+use Ing200086\Miner\Blocks\Data\BlockDataTrait;
 use Ing200086\Miner\Enums\Endian;
 use Ing200086\Miner\Hashes\HashCreator;
 use Ing200086\Miner\Hashes\HashInterface;
-use Ing200086\Miner\Blocks\Data\BlockData;
-use Ing200086\Miner\Blocks\Data\BlockDataTrait;
-use Ing200086\Miner\Blocks\Data\BlockDataInterface;
 
 abstract class AbstractBlockDataBuilder implements BlockDataBuilderInterface
 {
@@ -31,7 +31,7 @@ abstract class AbstractBlockDataBuilder implements BlockDataBuilderInterface
 
     abstract public function load($data): void;
 
-    public function build() : BlockDataInterface
+    public function build(): BlockDataInterface
     {
         return new BlockData(
             $this->version,

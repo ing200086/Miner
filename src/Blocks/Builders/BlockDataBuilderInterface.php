@@ -17,5 +17,5 @@ interface BlockDataBuilderInterface
 {
     public function load($data): void;
 
-    public function build() : BlockDataInterface;
+    public function build(): BlockDataInterface;
 }
