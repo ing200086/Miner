@@ -17,6 +17,8 @@ class BlockData implements BlockDataInterface
 {
     use BlockDataTrait;
 
+    protected $partialHash;
+
     public function __construct(
         HashInterface $version,
         HashInterface $previousBlockHash,
@@ -31,5 +33,16 @@ class BlockData implements BlockDataInterface
         $this->time = $time->endian()->little();
         $this->bits = $bits->endian()->little();
         $this->target = $target->endian()->little();
+
+        $this->partialHash = $this->version
+                                ->append($this->previousBlockHash)
+                                ->append($this->merkleRoot)
+                                ->append($this->time)
+                                ->append($this->bits);
+    }
+
+    public function partialHash() : HashInterface
+    {
+        return $this->partialHash;
     }
 }

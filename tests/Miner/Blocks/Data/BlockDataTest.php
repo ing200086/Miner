@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Ing200086\Miner\Tests\Blocks;
 
 use Ing200086\Miner\Blocks\Data\BlockData;
-use Ing200086\Miner\Hashes\Hash;
+use Ing200086\Miner\Hashes\HashInterface;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
@@ -21,18 +21,43 @@ use PHPUnit\Framework\TestCase;
  */
 class BlockDataTest extends TestCase
 {
+    protected $version;
+    protected $previousBlockHash;
+    protected $merkleRoot;
+    protected $time;
+    protected $bits;
+    protected $target;
+    protected $partialHash;
+
+    protected $blockData;
+
+
+    public function setUp()
+    {
+        $this->partialHash = $this->basicMockHash();
+        $this->target = $this->basicMockHash();
+        $this->bits = $this->basicMockHash();
+        $this->time = $this->basicMockHash($this->bits, $this->partialHash);
+        $this->merkleRoot = $this->basicMockHash($this->time, $this->time);
+        $this->previousBlockHash = $this->basicMockHash($this->merkleRoot, $this->merkleRoot);
+        $this->version = $this->basicMockHash($this->previousBlockHash, $this->previousBlockHash);
+
+        $this->blockData = new BlockData(
+            $this->version,
+            $this->previousBlockHash,
+            $this->merkleRoot,
+            $this->time,
+            $this->bits,
+            $this->target
+        );
+    }
+
     /**
      * @test
      */
     public function canLoadHashedVersion()
     {
-        $hash = Mockery::mock(Hash::class);
-        $hash->shouldReceive('endian->little')->andReturn($hash);
-
-        $blockData = new BlockData($hash, $hash, $hash, $hash, $hash, $hash);
-
-
-        $this->assertEquals($hash, $blockData->version());
+        $this->assertEquals($this->version, $this->blockData->version());
     }
 
     /**
@@ -40,13 +65,7 @@ class BlockDataTest extends TestCase
      */
     public function canLoadHashedTime()
     {
-        $hash = Mockery::mock(Hash::class);
-        $hash->shouldReceive('endian->little')->andReturn($hash);
-
-        $blockData = new BlockData($hash, $hash, $hash, $hash, $hash, $hash);
-
-
-        $this->assertEquals($hash, $blockData->time());
+        $this->assertEquals($this->time, $this->blockData->time());
     }
 
     /**
@@ -54,13 +73,7 @@ class BlockDataTest extends TestCase
      */
     public function canLoadPreviousBlockHash()
     {
-        $hash = Mockery::mock(Hash::class);
-        $hash->shouldReceive('endian->little')->andReturn($hash);
-
-        $blockData = new BlockData($hash, $hash, $hash, $hash, $hash, $hash);
-
-
-        $this->assertEquals($hash, $blockData->previousBlockHash());
+        $this->assertEquals($this->previousBlockHash, $this->blockData->previousBlockHash());
     }
 
     /**
@@ -68,13 +81,7 @@ class BlockDataTest extends TestCase
      */
     public function canLoadMerkleRoot()
     {
-        $hash = Mockery::mock(Hash::class);
-        $hash->shouldReceive('endian->little')->andReturn($hash);
-
-        $blockData = new BlockData($hash, $hash, $hash, $hash, $hash, $hash);
-
-
-        $this->assertEquals($hash, $blockData->merkleRoot());
+        $this->assertEquals($this->merkleRoot, $this->blockData->merkleRoot());
     }
 
     /**
@@ -82,24 +89,34 @@ class BlockDataTest extends TestCase
      */
     public function canLoadHashedBits()
     {
-        $hash = Mockery::mock(Hash::class);
-        $hash->shouldReceive('endian->little')->andReturn($hash);
-
-        $blockData = new BlockData($hash, $hash, $hash, $hash, $hash, $hash);
-
-        $this->assertEquals($hash, $blockData->bits());
+        $this->assertEquals($this->bits, $this->blockData->bits());
     }
 
     /**
      * @test
      */
-    public function canGenerateTarget()
+    public function canReturnTarget()
     {
-        $hash = Mockery::mock(Hash::class);
+        $this->assertEquals($this->target, $this->blockData->target());
+    }
+
+    /**
+     * @test
+     */
+    public function canReturnPartialHash()
+    {
+        $this->assertEquals($this->partialHash, $this->blockData->partialHash());
+    }
+
+    protected function basicMockHash($appendArgument = null, $appendTarget = null)
+    {
+        $hash = Mockery::mock(HashInterface::class);
         $hash->shouldReceive('endian->little')->andReturn($hash);
 
-        $blockData = new BlockData($hash, $hash, $hash, $hash, $hash, $hash);
+        if ($appendArgument != null) {
+            $hash->shouldReceive('append')->with($appendArgument)->andReturn($appendTarget);
+        }
 
-        $this->assertEquals($hash, $blockData->target());
+        return $hash;
     }
 }
