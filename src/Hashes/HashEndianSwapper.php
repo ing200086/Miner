@@ -13,25 +13,25 @@ namespace Ing200086\Miner\Hashes;
 
 use Ing200086\Miner\Enums\Endian;
 
-class HashEndianSwapper
+class HashEndianSwapper implements HashEndianSwapperInterface
 {
     protected $creator;
     protected $hash;
     protected $endian;
 
-    public function __construct(HashInterface $hash, $endian, HashCreator $creator = null)
+    public function __construct(HashInterface $hash, $endian, HashCreatorInterface $creator = null)
     {
         $this->creator = $creator ?: new HashCreator();
         $this->hash = $hash;
         $this->endian = $endian;
     }
 
-    public function little()
+    public function little() : HashInterface
     {
         return $this->swap(new Endian(Endian::LITTLE));
     }
 
-    public function big()
+    public function big() : HashInterface
     {
         return $this->swap(new Endian(Endian::BIG));
     }

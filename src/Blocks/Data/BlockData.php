@@ -41,7 +41,7 @@ class BlockData implements BlockDataInterface
                                 ->append($this->bits);
     }
 
-    public function partialHash() : HashInterface
+    public function partialHash(): HashInterface
     {
         return $this->partialHash;
     }

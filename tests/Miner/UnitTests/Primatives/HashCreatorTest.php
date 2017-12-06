@@ -11,8 +11,9 @@ declare(strict_types=1);
 
 namespace Ing200086\Miner\Tests\Primatives;
 
-use Ing200086\Miner\Hashes\Hash;
 use PHPUnit\Framework\TestCase;
+use Ing200086\Miner\Hashes\Hash;
+use Ing200086\Miner\Hashes\HashCreator;
 
 /**
  * @group  Focus
@@ -25,7 +26,7 @@ class HashCreatorTest extends TestCase
      */
     public function canCreateFromHexString($source)
     {
-        $hash = Hash::from()::hex($source);
+        $hash = HashCreator::hex($source);
 
         $this->assertEquals($source, $hash);
     }
@@ -36,7 +37,7 @@ class HashCreatorTest extends TestCase
      */
     public function canCreateFromDecimalString($source, $expected)
     {
-        $hash = Hash::from()::decimal($source);
+        $hash = HashCreator::decimal($source);
 
         $this->assertEquals($expected, $hash);
     }

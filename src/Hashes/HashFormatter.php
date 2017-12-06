@@ -11,11 +11,11 @@ declare(strict_types=1);
 
 namespace Ing200086\Miner\Hashes;
 
-class HashFormatter
+class HashFormatter implements HashFormatterInterface
 {
     protected $data;
 
-    public function load(HashInterface $data)
+    public function load(HashInterface $data) : HashFormatterInterface
     {
         $this->data = $data;
         return $this;

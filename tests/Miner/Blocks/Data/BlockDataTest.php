@@ -31,7 +31,6 @@ class BlockDataTest extends TestCase
 
     protected $blockData;
 
-
     public function setUp()
     {
         $this->partialHash = $this->basicMockHash();
