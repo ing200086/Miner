@@ -14,8 +14,6 @@ namespace Ing200086\Miner\Tests\UnitTests\Primatives;
 use Ing200086\Miner\Enums\Endian;
 use PHPUnit\Framework\TestCase;
 
-/**
- */
 class EndianEnumTest extends TestCase
 {
     /**

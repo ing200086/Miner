@@ -42,7 +42,8 @@ class JsonBuilderTest extends TestCase
 
     /**
      * The transaction used for this one is modified since the other targets had
-     * leading/following zeros which could be missed
+     * leading/following zeros which could be missed.
+     *
      * @test
      * @group  Focus
      */

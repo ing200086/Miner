@@ -1,11 +1,19 @@
 <?php
 
+/*
+ * miner.
+ *
+ * @license MIT
+ * @author Ing200086 <ing200086@gmail.com>
+ */
+
+declare(strict_types=1);
+
 namespace Ing200086\Miner\Tests\UnitTests\Miners;
 
-use PHPUnit\Framework\TestCase;
-use Ing200086\Miner\Blocks\Unclaimed;
-use Ing200086\Miner\Miners\ArithmaticalMiner;
 use Ing200086\Miner\Blocks\UnclaimedInterface;
+use Ing200086\Miner\Miners\ArithmaticalMiner;
+use PHPUnit\Framework\TestCase;
 
 class ArithmaticalMinerTest extends TestCase
 {
