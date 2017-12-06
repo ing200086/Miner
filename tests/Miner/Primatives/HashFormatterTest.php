@@ -48,12 +48,14 @@ class HashFormatterTest extends TestCase
      */
     public function canOutputAsBinary()
     {
-        $hash = $this->mockHash('0ed00912');
+        $source = '0ed00912';
+        $hash = $this->mockHash($source);
 
         $formatter = new HashFormatter();
         $formatter->load($hash);
+        $expected = hex2bin($source);
 
-        $this->assertEquals('1110110100000000100100010010', $formatter->binary());
+        $this->assertEquals($expected, $formatter->binary());
     }
 
     protected function mockHash($returnString)

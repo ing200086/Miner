@@ -29,6 +29,13 @@ class Hash implements HashInterface
         return self::from()::hex($this->data . $tail, $this->endian);
     }
 
+    public function sha256(): HashInterface
+    {
+        $binary = $this->into()->binary();
+        $hashed = hash('sha256', $binary);
+        return self::from()::hex($hashed);
+    }
+
     public static function from(): HashCreator
     {
         return new HashCreator();

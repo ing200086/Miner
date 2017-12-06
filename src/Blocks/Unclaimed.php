@@ -11,10 +11,10 @@ declare(strict_types=1);
 
 namespace Ing200086\Miner\Blocks;
 
+use Ing200086\Miner\Blocks\Data\BlockDataInterface;
 use Ing200086\Miner\Hashes\Hash;
 use Ing200086\Miner\Hashes\HashCreator;
 use Ing200086\Miner\Hashes\HashInterface;
-use Ing200086\Miner\Blocks\Data\BlockDataInterface;
 
 class Unclaimed
 {

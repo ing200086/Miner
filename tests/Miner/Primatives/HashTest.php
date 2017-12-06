@@ -41,19 +41,6 @@ class HashTest extends TestCase
     /**
      * @test
      */
-    public function canOutputBinary()
-    {
-        $source = '1800d0f6';
-        $hash = Hash::from()::hex($source)->endian()->big();
-        $expected = '0001100000000000' . '1101000011110110';
-        $actual = str_pad($hash->into()->binary(), 32, '0', STR_PAD_LEFT);
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @test
-     */
     public function canAppendTwoHashObjects()
     {
         $A = Hash::from()::hex('1800d0f6');
@@ -62,6 +49,19 @@ class HashTest extends TestCase
         $C = $A->append($B);
 
         $this->assertEquals('1800d0f610101010', $C);
+    }
+
+    /**
+     * @test
+     */
+    public function canPerformSha256Hashing()
+    {
+        $source = '76543210';
+        $expected = '7072828bceb61e5c0d7567b645821db630f121df0fb8e881fed5ee8a9b7058a1';
+
+        $actual = Hash::from()::hex($source)->sha256()->into()->hex();
+
+        $this->assertEquals($expected, $actual);
     }
 
     public function hexStringEndianFlipProvider()

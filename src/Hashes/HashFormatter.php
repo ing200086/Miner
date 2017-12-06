@@ -43,6 +43,6 @@ class HashFormatter
 
     public function binary()
     {
-        return decbin(hexdec($this->data));
+        return hex2bin($this->hex());
     }
 }
