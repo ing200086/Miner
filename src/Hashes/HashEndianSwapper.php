@@ -26,12 +26,12 @@ class HashEndianSwapper implements HashEndianSwapperInterface
         $this->endian = $endian;
     }
 
-    public function little() : HashInterface
+    public function little(): HashInterface
     {
         return $this->swap(new Endian(Endian::LITTLE));
     }
 
-    public function big() : HashInterface
+    public function big(): HashInterface
     {
         return $this->swap(new Endian(Endian::BIG));
     }

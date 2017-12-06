@@ -13,7 +13,7 @@ namespace Ing200086\Miner\Hashes;
 
 interface HashFormatterInterface
 {
-    public function load(HashInterface $data) : HashFormatterInterface;
+    public function load(HashInterface $data): self;
 
     public function hex();
 

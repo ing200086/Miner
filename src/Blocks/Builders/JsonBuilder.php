@@ -13,7 +13,7 @@ namespace Ing200086\Miner\Blocks\Builders;
 
 use Ing200086\Miner\Hashes\HashInterface;
 
-class JsonBuilder extends AbstractBlockDataBuilder
+class JsonBuilder extends AbstractBlockDataBuilder implements BlockDataBuilderInterface
 {
     public function load($data): void
     {

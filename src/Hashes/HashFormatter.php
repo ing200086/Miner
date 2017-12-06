@@ -15,7 +15,7 @@ class HashFormatter implements HashFormatterInterface
 {
     protected $data;
 
-    public function load(HashInterface $data) : HashFormatterInterface
+    public function load(HashInterface $data): HashFormatterInterface
     {
         $this->data = $data;
         return $this;
@@ -28,7 +28,13 @@ class HashFormatter implements HashFormatterInterface
 
     public function hexSubstr(int $start = 0, int $end = 0, int $padRight = 0)
     {
-        return str_pad(substr($this->hex(), $start, $end), $padRight, '0', STR_PAD_RIGHT);
+        $fullHex = $this->hex();
+
+        if ($end > strlen($fullHex)) {
+            throw new \Exception("End of substring is out of bounds");
+        }
+
+        return str_pad(substr($fullHex, $start, $end), $padRight, '0', STR_PAD_RIGHT);
     }
 
     public function decimal()

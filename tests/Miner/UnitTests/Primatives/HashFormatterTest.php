@@ -33,6 +33,47 @@ class HashFormatterTest extends TestCase
     /**
      * @test
      */
+    public function canOutputAHexidecimalSubstring()
+    {
+        $hash = $this->mockHash('0ed00912');
+
+        $formatter = new HashFormatter();
+        $formatter->load($hash);
+
+        $this->assertEquals('0ed0', $formatter->hexSubStr(0, 4));
+    }
+
+    /**
+     * @test
+     * @group  Focus
+     */
+    public function callingSubstringOutsideBoundsOfOriginalThrowsError()
+    {
+        $this->expectException(\Exception::class);
+        $hash = $this->mockHash('0ed0');
+
+        $formatter = new HashFormatter();
+        $formatter->load($hash);
+
+        $this->assertEquals('0ed0', $formatter->hexSubStr(0, 5));
+    }
+
+    /**
+     * @test
+     */
+    public function callingSubstringAtTheBoundariesIsFine()
+    {
+        $hash = $this->mockHash('0ed0');
+
+        $formatter = new HashFormatter();
+        $formatter->load($hash);
+
+        $this->assertEquals('0ed0', $formatter->hexSubStr(0, 4));
+    }
+
+    /**
+     * @test
+     */
     public function canOutputAsDecimal()
     {
         $hash = $this->mockHash('0ed00912');
@@ -41,6 +82,19 @@ class HashFormatterTest extends TestCase
         $formatter->load($hash);
 
         $this->assertEquals(248514834, $formatter->decimal());
+    }
+
+    /**
+     * @test
+     */
+    public function canOutputAsDecimalFromSubstring()
+    {
+        $hash = $this->mockHash('0ed00912');
+
+        $formatter = new HashFormatter();
+        $formatter->load($hash);
+
+        $this->assertEquals(14, $formatter->decimalSubstr(0, 2));
     }
 
     /**

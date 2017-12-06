@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Ing200086\Miner\Tests\Blocks;
+namespace Ing200086\Miner\Tests\UnitTests\Blocks;
 
 use Ing200086\Miner\Blocks\Builders\JsonBuilder;
 use Ing200086\Miner\Blocks\Data\BlockData;
@@ -37,6 +37,11 @@ class JsonBuilderTest extends TestCase
         $this->assertEquals(
             $json['previousblockhash'],
             $blockData->previousBlockHash()->endian()->big()->into()->hex()
+        );
+
+        $this->assertEquals(
+            '000000000000000000000000000000000000000000f6d000',
+            $blockData->target()->into()->hex()
         );
     }
 }

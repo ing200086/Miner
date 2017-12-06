@@ -15,13 +15,13 @@ use Ing200086\Miner\Enums\Endian;
 
 class HashCreator implements HashCreatorInterface
 {
-    public static function hex($hex, Endian $endian = null) : HashInterface
+    public static function hex($hex, Endian $endian = null): HashInterface
     {
         $endian = ($endian) ?: (new Endian(Endian::BIG));
         return new Hash($hex, $endian);
     }
 
-    public static function decimal($dec, Endian $endian = null) : HashInterface
+    public static function decimal($dec, Endian $endian = null): HashInterface
     {
         $endian = ($endian) ?: (new Endian(Endian::LITTLE));
         $hex = str_pad(dechex($dec), 8, '0', STR_PAD_LEFT);
