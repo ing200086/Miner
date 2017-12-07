@@ -13,6 +13,7 @@ namespace Ing200086\Miner\Tests\UnitTests\Miners;
 
 use Ing200086\Miner\Blocks\UnclaimedInterface;
 use Ing200086\Miner\Miners\ArithmaticalMiner;
+use Ing200086\Miner\Miners\Patterns\ArithmaticalPattern;
 use PHPUnit\Framework\TestCase;
 
 class ArithmaticalMinerTest extends TestCase
@@ -20,9 +21,10 @@ class ArithmaticalMinerTest extends TestCase
     /**
      * @test
      */
-    public function canMakeMinerWithIncrement()
+    public function canMakeMinerWithPattern()
     {
-        $miner = new ArithmaticalMiner(3);
+        $pattern = \Mockery::mock(ArithmaticalPattern::class);
+        $miner = new ArithmaticalMiner($pattern);
 
         $this->assertInstanceOf(ArithmaticalMiner::class, $miner);
     }
@@ -33,7 +35,8 @@ class ArithmaticalMinerTest extends TestCase
     public function canLoadAnUnclaimedBlock()
     {
         $unclaimed = \Mockery::mock(UnclaimedInterface::class);
-        $miner = new ArithmaticalMiner(1);
+        $pattern = \Mockery::mock(ArithmaticalPattern::class);
+        $miner = new ArithmaticalMiner($pattern);
         $miner->load($unclaimed);
 
         $this->assertEquals($unclaimed, $miner->nugget());
@@ -42,65 +45,69 @@ class ArithmaticalMinerTest extends TestCase
     /**
      * @test
      */
-    public function canMineWithNonceProvided()
+    public function canGetCyclesRequiredToFindKey()
     {
-        $unclaimed = \Mockery::mock(UnclaimedInterface::class);
-        $unclaimed->shouldReceive('testNonce')->andReturn(true);
+        $valid = 1;
+        $cycles = 11;
+        $pattern = $this->makePattern($valid, $cycles);
+        $unclaimed = $this->makeBlock($valid);
 
-        $nonce = 1;
-        $miner = new ArithmaticalMiner(1);
-
-        $miner->load($unclaimed);
-        $miner->seed($nonce);
-        $miner->run();
-
-        $this->assertEquals($nonce, $miner->key());
-    }
-
-    /**
-     * @test
-     * @dataProvider minerDataProvider
-     */
-    public function canMineWithSeedNonceNotEqualToRequired($seed, $increment, $cycles, $nonce)
-    {
-        $unclaimed = \Mockery::mock(UnclaimedInterface::class);
-        $unclaimed->shouldReceive('testNonce')->with(\Mockery::not($nonce))->andReturn(false);
-        $unclaimed->shouldReceive('testNonce')->with($nonce)->andReturn(true);
-
-        $miner = new ArithmaticalMiner($increment);
-
-        $miner->load($unclaimed);
-        $miner->seed($seed);
-        $miner->run();
-
-        $this->assertEquals($nonce, $miner->key());
-    }
-
-    /**
-     * @test
-     * @dataProvider minerDataProvider
-     * @group  Focus
-     */
-    public function canGetCyclesRequiredToFindKey($seed, $increment, $cycles, $nonce)
-    {
-        $unclaimed = \Mockery::mock(UnclaimedInterface::class);
-        $unclaimed->shouldReceive('testNonce')->with(\Mockery::not($nonce))->andReturn(false);
-        $unclaimed->shouldReceive('testNonce')->with($nonce)->andReturn(true);
-
-        $miner = new ArithmaticalMiner($increment);
-
-        $miner->load($unclaimed);
-        $miner->seed($seed);
-        $miner->run();
+        $miner = new ArithmaticalMiner($pattern);
+        $miner->load($unclaimed)->run();
 
         $this->assertEquals($cycles, $miner->cycles());
     }
 
-    public function minerDataProvider()
+    /**
+     * @test
+     */
+    public function canGetFoundNonce()
     {
-        return [
-            [2147483647, 1, 11, 10],
-            [0, 1, 10, 10],
-        ];
+        $valid = 1;
+        $cycles = 11;
+        $pattern = $this->makePattern($valid, $cycles);
+        $unclaimed = $this->makeBlock($valid);
+
+        $miner = new ArithmaticalMiner($pattern);
+        $miner->load($unclaimed)->run();
+
+        $this->assertEquals($valid, $miner->key());
+    }
+
+    /**
+     * @test
+     */
+    public function canReachMaxCyclesWithNoKey()
+    {
+        $valid = 1;
+        $cycles = 11;
+        $pattern = $this->makePattern($valid, $cycles);
+        $unclaimed = $this->makeBlock($valid);
+
+        $miner = new ArithmaticalMiner($pattern);
+        $miner->load($unclaimed)->maxCycles($cycles - 1)->run();
+
+        $this->assertEquals($cycles - 1, $miner->cycles());
+        $this->assertNull($miner->key());
+    }
+
+    protected function makePattern($valid, $cycles, $invalid = null)
+    {
+        $invalid = $invalid ?: $valid + 1;
+        $pattern = \Mockery::mock(ArithmaticalPattern::class);
+        $pattern->shouldReceive('current')->times($cycles)->andReturn($invalid)
+                    ->shouldReceive('next')->times($cycles)
+                    ->shouldReceive('current')->andReturn($valid);
+
+        return $pattern;
+    }
+
+    protected function makeBlock($valid)
+    {
+        $unclaimed = \Mockery::mock(UnclaimedInterface::class);
+        $unclaimed->shouldReceive('testNonce')->with(\Mockery::not($valid))->andReturn(false)
+                    ->shouldReceive('testNonce')->with($valid)->andReturn(true);
+
+        return $unclaimed;
     }
 }

@@ -11,23 +11,25 @@ declare(strict_types=1);
 
 namespace Ing200086\Miner\Miners;
 
+use Ing200086\Miner\Miners\Patterns\ArithmaticalPattern;
+
 class ArithmaticalMiner extends AbstractMiner
 {
-    protected $increment;
+    protected $pattern;
 
-    public function __construct($increment)
+    public function __construct(ArithmaticalPattern $pattern)
     {
-        $this->increment = $increment;
+        $this->pattern = $pattern;
     }
 
-    protected function nextNonce($current)
+    public function run()
     {
-        $next = $current + $this->increment;
-
-        if ($next > 2147483647) {
-            $next = 0;
+        for ($this->cycles = 0; $this->cycles < $this->maxCycles; $this->cycles++) {
+            if ($this->block->testNonce($this->pattern->current())) {
+                $this->valid = $this->pattern->current();
+                break;
+            }
+            $this->pattern->next();
         }
-
-        return $next;
     }
 }
