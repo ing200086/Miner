@@ -19,7 +19,7 @@ abstract class AbstractMiner
     protected $block;
     protected $seed;
     protected $cycles;
-    protected $maxCycles = 20;
+    protected $maxCycles = 10000;
 
     public function load(UnclaimedInterface $block)
     {
