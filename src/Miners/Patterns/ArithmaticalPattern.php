@@ -11,30 +11,18 @@ declare(strict_types=1);
 
 namespace Ing200086\Miner\Miners\Patterns;
 
-class ArithmaticalPattern
+class ArithmaticalPattern extends AbstractPattern implements PatternInterface
 {
-    protected $current;
     protected $increment;
 
     public function __construct($seed = 0, $increment = 1)
     {
-        $this->current = $seed;
+        parent::__construct($seed);
         $this->increment = $increment;
     }
 
-    public function next()
+    protected function nextValue(): int
     {
-        $next = $this->current + $this->increment;
-
-        if ($next > 2147483647) {
-            $next = 0;
-        }
-
-        $this->current = $next;
-    }
-
-    public function current()
-    {
-        return $this->current;
+        return $this->current + $this->increment;
     }
 }
