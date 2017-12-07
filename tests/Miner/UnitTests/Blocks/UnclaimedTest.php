@@ -26,8 +26,7 @@ class UnclaimedTest extends TestCase
      */
     public function canTestNonceAgainstBlockDataSuccess()
     {
-        $nonce = \Mockery::mock(HashInterface::class);
-        $nonce->shouldReceive('endian->little')->andReturn($nonce);
+        $nonce = 10;
 
         $blockData = $this->createMockDataBlock(10, 10);
 
@@ -41,8 +40,7 @@ class UnclaimedTest extends TestCase
      */
     public function canTestNonceAgainstBlockDataFail()
     {
-        $nonce = \Mockery::mock(HashInterface::class);
-        $nonce->shouldReceive('endian->little')->andReturn($nonce);
+        $nonce = 10;
 
         $blockData = $this->createMockDataBlock(11, 10);
 

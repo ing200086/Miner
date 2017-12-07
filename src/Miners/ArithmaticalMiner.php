@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Ing200086\Miner\Miners;
 
 use Ing200086\Miner\Blocks\UnclaimedInterface;
-use Ing200086\Miner\Hashes\HashCreator;
 
 class ArithmaticalMiner
 {
@@ -38,11 +37,13 @@ class ArithmaticalMiner
 
     public function run()
     {
-        $nonce = HashCreator::decimal($this->current);
-
-        if ($this->block->testNonce($nonce)) {
-            $this->valid = $this->current;
+        $cycles = 0;
+        while (($cycles <= 20) && (!$this->block->testNonce($this->current))) {
+            $this->current++;
+            $cycles++;
         }
+
+        $this->valid = $this->current;
     }
 
     public function seed($value)

@@ -13,20 +13,23 @@ namespace Ing200086\Miner\Blocks;
 
 use Ing200086\Miner\Blocks\Data\BlockDataInterface;
 use Ing200086\Miner\Hashes\HashCreator;
-use Ing200086\Miner\Hashes\HashInterface;
+use Ing200086\Miner\Hashes\HashCreatorInterface;
 
 class Unclaimed implements UnclaimedInterface
 {
+    protected $hashCreator;
     protected $data;
 
-    public function __construct(BlockDataInterface $data)
+    public function __construct(BlockDataInterface $data, HashCreatorInterface $hashCreator = null)
     {
         $this->data = $data;
+        $this->hashCreator = $hashCreator ?: (new HashCreator());
     }
 
-    public function testNonce(HashInterface $nonce)
+    public function testNonce(int $nonce)
     {
-        $shot = $this->data->partialHash()->append($nonce->endian()->little())->sha256()->sha256();
+        $nonce = $this->hashCreator::decimal($nonce)->endian()->little();
+        $shot = $this->data->partialHash()->append($nonce)->sha256()->sha256();
 
         return $shot->into()->decimal() <= $this->data->target()->into()->decimal();
     }

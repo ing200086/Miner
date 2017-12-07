@@ -42,7 +42,7 @@ class ArithmaticalMinerTest extends TestCase
     /**
      * @test
      */
-    public function canMine()
+    public function canMineWithNonceProvided()
     {
         $unclaimed = \Mockery::mock(UnclaimedInterface::class);
         $unclaimed->shouldReceive('testNonce')->andReturn(true);
@@ -52,6 +52,26 @@ class ArithmaticalMinerTest extends TestCase
 
         $miner->load($unclaimed);
         $miner->seed($nonce);
+        $miner->run();
+
+        $this->assertEquals($nonce, $miner->key());
+    }
+
+    /**
+     * @test
+     */
+    public function canMineWithSeedNonceNotEqualToRequired()
+    {
+        $unclaimed = \Mockery::mock(UnclaimedInterface::class);
+
+        $unclaimed->shouldReceive('testNonce')->with(\Mockery::not(10))->andReturn(false);
+        $unclaimed->shouldReceive('testNonce')->with(10)->andReturn(true);
+
+        $nonce = 10;
+        $miner = new ArithmaticalMiner(1);
+
+        $miner->load($unclaimed);
+        $miner->seed(1);
         $miner->run();
 
         $this->assertEquals($nonce, $miner->key());
