@@ -11,13 +11,8 @@ declare(strict_types=1);
 
 namespace Ing200086\Miner\Miners;
 
-use Ing200086\Miner\Blocks\UnclaimedInterface;
-
-class ArithmaticalMiner
+class ArithmaticalMiner extends AbstractMiner
 {
-    protected $current;
-    protected $valid;
-    protected $block;
     protected $increment;
 
     public function __construct($increment)
@@ -25,34 +20,14 @@ class ArithmaticalMiner
         $this->increment = $increment;
     }
 
-    public function load(UnclaimedInterface $block)
+    protected function nextNonce($current)
     {
-        $this->block = $block;
-    }
+        $next = $current + $this->increment;
 
-    public function nugget()
-    {
-        return $this->block;
-    }
-
-    public function run()
-    {
-        $cycles = 0;
-        while (($cycles <= 20) && (!$this->block->testNonce($this->current))) {
-            $this->current++;
-            $cycles++;
+        if ($next > 2147483647) {
+            $next = 0;
         }
 
-        $this->valid = $this->current;
-    }
-
-    public function seed($value)
-    {
-        $this->current = $value;
-    }
-
-    public function key()
-    {
-        return $this->valid;
+        return $next;
     }
 }

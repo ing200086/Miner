@@ -59,21 +59,48 @@ class ArithmaticalMinerTest extends TestCase
 
     /**
      * @test
+     * @dataProvider minerDataProvider
      */
-    public function canMineWithSeedNonceNotEqualToRequired()
+    public function canMineWithSeedNonceNotEqualToRequired($seed, $increment, $cycles, $nonce)
     {
         $unclaimed = \Mockery::mock(UnclaimedInterface::class);
+        $unclaimed->shouldReceive('testNonce')->with(\Mockery::not($nonce))->andReturn(false);
+        $unclaimed->shouldReceive('testNonce')->with($nonce)->andReturn(true);
 
-        $unclaimed->shouldReceive('testNonce')->with(\Mockery::not(10))->andReturn(false);
-        $unclaimed->shouldReceive('testNonce')->with(10)->andReturn(true);
-
-        $nonce = 10;
-        $miner = new ArithmaticalMiner(1);
+        $miner = new ArithmaticalMiner($increment);
 
         $miner->load($unclaimed);
-        $miner->seed(1);
+        $miner->seed($seed);
         $miner->run();
 
         $this->assertEquals($nonce, $miner->key());
+    }
+
+    /**
+     * @test
+     * @dataProvider minerDataProvider
+     * @group  Focus
+     */
+    public function canGetCyclesRequiredToFindKey($seed, $increment, $cycles, $nonce)
+    {
+        $unclaimed = \Mockery::mock(UnclaimedInterface::class);
+        $unclaimed->shouldReceive('testNonce')->with(\Mockery::not($nonce))->andReturn(false);
+        $unclaimed->shouldReceive('testNonce')->with($nonce)->andReturn(true);
+
+        $miner = new ArithmaticalMiner($increment);
+
+        $miner->load($unclaimed);
+        $miner->seed($seed);
+        $miner->run();
+
+        $this->assertEquals($cycles, $miner->cycles());
+    }
+
+    public function minerDataProvider()
+    {
+        return [
+            [2147483647, 1, 11, 10],
+            [0, 1, 10, 10],
+        ];
     }
 }
