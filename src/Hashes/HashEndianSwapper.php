@@ -52,6 +52,7 @@ class HashEndianSwapper implements HashEndianSwapperInterface
 
     protected static function swapEndianness(HashInterface $hex)
     {
+        // var_dump($hex);
         return implode(array_reverse(str_split($hex->__toString(), 2)));
     }
 }

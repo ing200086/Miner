@@ -15,6 +15,12 @@ use Ing200086\Miner\Hashes\HashInterface;
 
 class JsonBuilder extends AbstractBlockDataBuilder implements BlockDataBuilderInterface
 {
+    public function __construct($data)
+    {
+        parent::__construct();
+        $this->load($data);
+    }
+
     public function load($data): void
     {
         $this->version = self::loadDec($data['version']);

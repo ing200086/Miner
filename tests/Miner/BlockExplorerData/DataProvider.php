@@ -28,6 +28,16 @@ class DataProvider
         );
     }
 
+    public static function emptyTransaction()
+    {
+        return self::jsonDecodeFile('EmptyTransaction.json');
+    }
+
+    public static function otherTransaction()
+    {
+        return self::jsonDecodeFile('OtherTransaction.json');
+    }
+
     public static function oneTransaction()
     {
         return self::jsonDecodeFile('OneTransaction.json');

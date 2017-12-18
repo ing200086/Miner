@@ -24,7 +24,12 @@ class ArithmaticalMiner extends AbstractMiner
 
     public function run()
     {
+        // printf("Mining: Starting point : " . $this->pattern->current() . " Max Cycles : " . $this->maxCycles . "\n");
         for ($this->cycles = 0; $this->cycles < $this->maxCycles; $this->cycles++) {
+            // if ($this->cycles % 100 == 0) {
+            //     printf("Attempting: " . $this->pattern->current() . "\n");
+            // }
+
             if ($this->block->testNonce($this->pattern->current())) {
                 $this->valid = $this->pattern->current();
                 break;

@@ -33,7 +33,7 @@ class Hash implements HashInterface
     {
         $binary = $this->into()->binary();
         $hashed = hash('sha256', $binary);
-        return self::from()::hex($hashed);
+        return self::from()::hex($hashed, $this->endian);
     }
 
     public static function from(): HashCreator

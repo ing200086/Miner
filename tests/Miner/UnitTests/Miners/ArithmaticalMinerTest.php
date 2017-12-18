@@ -48,7 +48,7 @@ class ArithmaticalMinerTest extends TestCase
     public function canGetCyclesRequiredToFindKey()
     {
         $valid = 1;
-        $cycles = 11;
+        $cycles = 9;
         $pattern = $this->makePattern($valid, $cycles);
         $unclaimed = $this->makeBlock($valid);
 
@@ -64,7 +64,7 @@ class ArithmaticalMinerTest extends TestCase
     public function canGetFoundNonce()
     {
         $valid = 1;
-        $cycles = 11;
+        $cycles = 9;
         $pattern = $this->makePattern($valid, $cycles);
         $unclaimed = $this->makeBlock($valid);
 

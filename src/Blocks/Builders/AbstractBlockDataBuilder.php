@@ -50,6 +50,6 @@ abstract class AbstractBlockDataBuilder implements BlockDataBuilderInterface
 
     protected function loadDec($term): HashInterface
     {
-        return $this->hashCreator::decimal($term, (new Endian(Endian::BIG)))->endian()->little();
+        return $this->hashCreator::decimal($term, new Endian(Endian::BIG))->endian()->little();
     }
 }

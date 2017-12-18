@@ -1,0 +1,8 @@
+{
+    "version": 10,
+    "merkleroot": "aaaaaaa0bbbbbbb1ccccccc2ddddddd3eeeeeee4fffffff5aaaaaaa6bbbbbbb7",
+    "time": 16,
+    "nonce": 4,
+    "bits": "ffffffff",
+    "previousblockhash": "aaaaaaa8bbbbbbb9cccccc10dddddd11eeeeee12ffffff13aaaaaa14bbbbbb15"
+}

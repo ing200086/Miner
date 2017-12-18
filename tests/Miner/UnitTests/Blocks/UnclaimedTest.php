@@ -53,10 +53,10 @@ class UnclaimedTest extends TestCase
     {
         $partialHash = \Mockery::mock(HashInterface::class);
         $partialHash->shouldReceive('append->sha256->sha256')->andReturn($partialHash);
-        $partialHash->shouldReceive('into->decimal')->andReturn($shot);
+        $partialHash->shouldReceive('endian->big->into->decimal')->andReturn($shot);
 
         $target = \Mockery::mock(HashInterface::class);
-        $target->shouldReceive('into->decimal')->andReturn($targetValue);
+        $target->shouldReceive('endian->big->into->decimal')->andReturn($targetValue);
 
         $blockData = \Mockery::mock(BlockDataInterface::class);
         $blockData->shouldReceive('partialHash')->andReturn($partialHash);

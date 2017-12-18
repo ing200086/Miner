@@ -27,9 +27,8 @@ class JsonBuilderTest extends TestCase
     public function canLoadFromJsonFile()
     {
         $json = DataProvider::oneTransaction();
-        $builder = new JsonBuilder();
+        $builder = new JsonBuilder($json);
 
-        $builder->load($json);
         $blockData = $builder->build();
 
         $this->assertInstanceOf(BlockData::class, $blockData);
@@ -45,14 +44,12 @@ class JsonBuilderTest extends TestCase
      * leading/following zeros which could be missed.
      *
      * @test
-     * @group  Focus
      */
     public function canDecompressSpecialTargetedTransaction()
     {
         $json = DataProvider::invalidTransactionWithSpecialTarget();
-        $builder = new JsonBuilder();
+        $builder = new JsonBuilder($json);
 
-        $builder->load($json);
         $blockData = $builder->build();
 
         $this->assertInstanceOf(BlockData::class, $blockData);
